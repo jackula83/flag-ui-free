@@ -22,15 +22,16 @@ const FlagCard: React.FC<IProps> = ({ flag }) => {
   )
 }
 
-const Wrapper = styled.article`
+const Wrapper = styled.div`
   width: 90vw;
   max-width: 500px;
   border-radius: 0.25rem;
-  border: 2px solid gray;
+  border: 2px solid ${(p) => p.theme.secondary};
+  color: ${(p) => p.theme.headline};
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.25rem;
+  padding: 0.25rem 1rem;
 
   h4 {
     display: inline-block;
