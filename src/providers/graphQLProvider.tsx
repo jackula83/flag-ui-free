@@ -1,14 +1,12 @@
 import React from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import * as Config from '../config.json';
+import { BffEndpoint } from '../config';
 
 export const GraphQLProvider: React.FC<React.PropsWithChildren> = (props) => {
-
-  const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-  const config = isDevelopment ? Config.development : Config.production;
+  const endpoint = BffEndpoint;
 
   const client = new ApolloClient({
-    uri: config.bff_endpoint,
+    uri: endpoint,
     cache: new InMemoryCache(),
   });
 

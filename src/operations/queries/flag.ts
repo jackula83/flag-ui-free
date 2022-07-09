@@ -10,7 +10,7 @@ export interface Flag {
   description: string;
   alias: string;
   isEnabled: boolean;
-  defaultServeValue: DefaultServeValue;
+  defaultServeValue?: DefaultServeValue;
 }
 
 interface FlagListData {
@@ -25,43 +25,41 @@ interface FlagDataVars {
   id: number
 }
 
-const entityName = nameof<Flag>();
+const entityName = "Flag";
 
-const FLAG_FIELDS = gql`
-  ${CoreEntityFields(entityName)}
-  fragment CoreFlagFields on ${entityName} {
-    ...CoreEntityFields
-    name
-    description
-    alias
-    isEnabled
-    defaultServeValue {
-      state
-    }
-  }
-`;
+const ENTITY_FIELDS = CoreEntityFields(entityName);
 
 const LIST_FLAGS = gql`
-  ${FLAG_FIELDS}
   query {
     flags {
-      ...CoreFlagFields
+      id,
+      name,
+      alias,
+      isEnabled
     }
   }
 `;
 
 const GET_FLAG = gql`
-  ${FLAG_FIELDS}
-  query {
+  ${ENTITY_FIELDS}
+  query Flag {
     flag(id: $id) {
-      ...CoreFlagFields
+      ...CoreEntityFields
+      name
+      description
+      alias
+      isEnabled
+      defaultServeValue {
+        state
+      }
     }
   }
 `;
 
-export const ListFlags = (): Flag[] => {
+export const ListFlags = () => {
   const { data } = useQuery<FlagListData>(LIST_FLAGS);
-  return data!.flags;
+  // TBD error handling
+  return data?.flags;
 }
 
 export const GetFlag = (id: number): Flag => {
@@ -69,5 +67,6 @@ export const GetFlag = (id: number): Flag => {
     GET_FLAG,
     {variables: { id }}
   );
+  // TBD error handling
   return data!.flag;
 }
