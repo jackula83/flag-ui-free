@@ -1,14 +1,8 @@
-import React, { createContext } from 'react';
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import React from 'react';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import * as Config from '../config.json';
 
-interface IGraphQLContext {
-  client: ApolloClient<NormalizedCacheObject>
-}
-
-export const GraphQLContext = createContext<IGraphQLContext>({} as IGraphQLContext);
-
-export const GraphQLProvider: React.FC = (props: any) => {
+export const GraphQLProvider: React.FC<React.PropsWithChildren> = (props) => {
 
   const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
   const config = isDevelopment ? Config.development : Config.production;
@@ -18,10 +12,8 @@ export const GraphQLProvider: React.FC = (props: any) => {
     cache: new InMemoryCache(),
   });
 
-  const value: IGraphQLContext = { client };
-
   return (
-    <GraphQLContext.Provider value={value}>{props.children}</GraphQLContext.Provider>
+    <ApolloProvider client={client}>{props.children}</ApolloProvider>
   )
 }
 
