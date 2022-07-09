@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListFlags } from './../operations/queries/flag';
-import FlagCard from './FlagCard';
+import { ListFlags } from '../operations/queries/flag';
+import FlagCard from './flagCard';
 
 const FlagList: React.FC = () => {
   // temporary prototype for visualisation only

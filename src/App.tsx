@@ -1,5 +1,5 @@
 import './App.css';
-import FlagList from './components/FlagList';
+import FlagList from './components/flagList';
 
 function App() {
   return (

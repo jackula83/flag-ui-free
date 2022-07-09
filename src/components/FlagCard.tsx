@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import { Flag } from '../operations/queries/flag';
-import Toggle from './controls/Toggle';
+import Toggle from './controls/toggle';
 
 interface IProps {
   flag: Flag
