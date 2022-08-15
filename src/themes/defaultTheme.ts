@@ -18,7 +18,7 @@ export interface ITheme {
 
 // palette from here: https://www.happyhues.co/palettes/10
 export const DefaultTheme: ITheme = {
-  background: "#004643",
+  background: "#dddddd",
   headline: "#fffffe",
   paragraph: "abd1c6",
   button: "#f9bc60",
