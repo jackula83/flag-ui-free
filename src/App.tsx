@@ -1,6 +1,5 @@
 import styled, { ThemeProvider } from 'styled-components';
-import './App.css';
-import FlagList from './components/flagList';
+import './App.scss';
 import { DefaultTheme } from './themes/defaultTheme';
 
 const Container = styled.div`
@@ -13,7 +12,6 @@ function App() {
   return (
     <ThemeProvider theme={DefaultTheme}>
       <Container>
-        <FlagList />
       </Container>
     </ThemeProvider>
   );
