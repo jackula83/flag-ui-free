@@ -9,7 +9,7 @@ const SideBar: React.FC<any> = () => {
 
   const location = useLocation();
 
-  const LinkItem = (title: string, icon: string, path: string) => {
+  const createNavLink = (title: string, icon: string, path: string) => {
     const isActive = location.pathname === path;
     return (
       <NavItem className={isActive ? 'active' : ''} key={title}>
@@ -21,19 +21,19 @@ const SideBar: React.FC<any> = () => {
     );
   }
 
-  const createLinks = () => {
+  const createNavLinks = () => {
     return [
-      LinkItem('Dashboard', 'mdi-home', '/'),
-      LinkItem('Feature Flags', 'mdi-flag-variant', FlagPath),
-      LinkItem('Segments', 'mdi-chart-pie', SegmentPath)
+      createNavLink('Dashboard', 'mdi-home', '/'),
+      createNavLink('Feature Flags', 'mdi-flag-variant', FlagPath),
+      createNavLink('Segments', 'mdi-chart-pie', SegmentPath)
     ];
   }
 
   useEffect(() => {
-    setLinks(createLinks())
+    setLinks(createNavLinks())
   }, [location.pathname])
 
-  const [links, setLinks] = useState<JSX.Element[]>(createLinks());
+  const [links, setLinks] = useState<JSX.Element[]>(createNavLinks());
 
   return (
     <>
