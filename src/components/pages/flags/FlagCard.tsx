@@ -21,7 +21,7 @@ const FlagCard: React.FC<IProps> = ({flag}) => {
               <h4 className="card-title">{flag.name}</h4>
               <p className="card-description m-1">{flag.description}</p>
             </div>
-            <div className="col">
+            <div className="col-2">
               {flag.isEnabled ? onButton : offButton}
             </div>
           </div>
@@ -35,7 +35,7 @@ const FlagCard: React.FC<IProps> = ({flag}) => {
 const Wrapper = styled.div`
   .card {
     overflow: hidden;
-  }
+  } 
 
   p {
     content: '';
@@ -52,7 +52,6 @@ const Wrapper = styled.div`
     width: 100%;
     height: 25%;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 70%);
-    /* /* background: linear-gradient(transparent 50px, white); */
     position: absolute;
   }
 `
