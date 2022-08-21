@@ -4,9 +4,11 @@ import './App.css';
 import './assets/css/style.css'
 import './assets/vendors/mdi/css/materialdesignicons.min.css';
 import './assets/vendors/css/vendor.bundle.base.css';
-import SideBar from './components/shared/SideBar';
+import SideBar, { FlagPath } from './components/shared/SideBar';
 import NavBar from './components/shared/NavBar';
-import FlagPage from './components/shared/pages/FlagPage';
+import FlagPage from './components/pages/flags/FlagPage';
+import MainPanel from './components/shared/MainPanel';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 const Container = styled.div`
   /* padding: 2rem; */
@@ -15,20 +17,18 @@ const Container = styled.div`
 `
 
 function App() {
+  const flagPageElement = <MainPanel title='Flags' page={<FlagPage />} />
+
   return (
     <ThemeProvider theme={DefaultTheme}>
       <Container className='container-fluid page-body-wrapper pt-0 proBanner-padding-top fixed-top'>
+        <BrowserRouter>
         <NavBar />
         <SideBar />
-        <div className="main-panel">
-          <div className="content-wrapper">
-            <div className="row">
-              <div className="col-12 grid-margin stretch-card">
-                <FlagPage />
-              </div>
-            </div>
-          </div>
-        </div>
+          <Routes>
+            <Route path={FlagPath} element={flagPageElement} />
+          </Routes>
+        </BrowserRouter>
       </Container>
     </ThemeProvider>
   );
