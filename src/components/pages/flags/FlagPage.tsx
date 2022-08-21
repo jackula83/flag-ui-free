@@ -29,7 +29,7 @@ const FlagPage: React.FC<any> = () => {
       <div className="row">
         
           {flagList.map(flag => 
-          <div className="col-12 grid-margin stretch-card" key={flag.name}>
+          <div className="col-12 grid-margin" key={flag.name}>
             <FlagCard flag={flag} />
           </div>)}
       </div>
