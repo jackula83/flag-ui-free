@@ -1,4 +1,4 @@
-# flag-ui-free
+# FlagCar UI (work in progress)
 
 FlagCar - Feature flag service that follows a side-car pattern, semi-self hosted and free!
 
