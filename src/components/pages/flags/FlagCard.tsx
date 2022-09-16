@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flag } from '../../../operations/queries/flag'
+import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
 
 interface IProps {

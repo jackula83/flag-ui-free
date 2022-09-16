@@ -1,6 +1,6 @@
 import React from 'react';
 import FlagCard from './FlagCard';
-import { ListFlags } from './../../../operations/queries/flag';
+import { ListFlags } from '../../../operations/flag';
 
 const FlagPage: React.FC<any> = () => {
 
