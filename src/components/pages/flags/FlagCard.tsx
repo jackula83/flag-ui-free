@@ -1,16 +1,40 @@
-import React from 'react'
-import { Flag } from '../../../operations/flag'
+import React, { useState } from 'react'
+import { Flag, ToggleFlag } from '../../../operations/flag'
 import styled from 'styled-components';
 
 interface IProps {
-  flag: Flag
+  flagProp: Flag
 }
 
 // http://jsfiddle.net/b9vtW/4/
 
-const FlagCard: React.FC<IProps> = ({flag}) => {
-  const onButton = <div className="btn btn-gradient-success btn-rounded">On</div>
-  const offButton = <div className="btn btn-gradient-light btn-rounded">Off</div>
+const FlagCard: React.FC<IProps> = ({flagProp}) => {
+
+  const [flag, setFlag] = useState<Flag>(flagProp);
+
+  const toggleFlag = async (flagId: number) => {
+    const toggleFunc = ToggleFlag();
+    const { data } = await toggleFunc({
+      variables: {
+        id: flagId
+      }
+    });
+    setFlag(data!.toggle);
+  }
+
+  const onButton = 
+    <div 
+      className="btn btn-gradient-success btn-rounded"
+      onClick={() => toggleFlag(flag.id)}>
+      On
+    </div>
+
+  const offButton = 
+    <div className="btn btn-gradient-light btn-rounded"
+      onClick={() => toggleFlag(flag.id)}>
+      Off
+    </div>
+
   return (
     <>
     <Wrapper>

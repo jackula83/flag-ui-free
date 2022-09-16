@@ -37,3 +37,41 @@
 2022-09-16 08:42:58.12 spid10s     Resource governor reconfiguration succeeded.
 2022-09-16 08:42:58.13 spid10s     SQL Server Audit is starting the audits. This is an informational message. No user action is required.
 2022-09-16 08:42:58.14 spid10s     SQL Server Audit has started the audits. This is an informational message. No user action is required.
+2022-09-16 08:42:58.87 spid10s     SQL Trace ID 1 was started by login "sa".
+2022-09-16 08:42:58.89 spid10s     Server name is '71e99b1bd483'. This is an informational message only. No user action is required.
+2022-09-16 08:42:58.90 spid39s     Always On: The availability replica manager is starting. This is an informational message only. No user action is required.
+2022-09-16 08:42:58.90 spid41s     [4]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-16 08:42:58.90 spid43s     [5]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-16 08:42:58.91 spid11s     [32767]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-16 08:42:58.92 spid41s     Starting up database 'msdb'.
+2022-09-16 08:42:58.92 spid43s     Starting up database 'FlagServiceDB'.
+2022-09-16 08:42:58.92 spid39s     Always On: The availability replica manager is waiting for the instance of SQL Server to allow client connections. This is an informational message only. No user action is required.
+2022-09-16 08:42:58.94 spid11s     Starting up database 'mssqlsystemresource'.
+2022-09-16 08:42:58.95 spid11s     The resource database build version is 15.00.4198. This is an informational message only. No user action is required.
+2022-09-16 08:42:59.02 spid11s     [3]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-16 08:42:59.04 spid11s     Starting up database 'model'.
+2022-09-16 08:42:59.07 spid38s     A self-generated certificate was successfully loaded for encryption.
+2022-09-16 08:42:59.11 spid38s     Server is listening on [ 'any' <ipv6> 1433].
+2022-09-16 08:42:59.12 spid38s     Server is listening on [ 'any' <ipv4> 1433].
+2022-09-16 08:42:59.14 Server      Server is listening on [ ::1 <ipv6> 1434].
+2022-09-16 08:42:59.15 Server      Server is listening on [ 127.0.0.1 <ipv4> 1434].
+2022-09-16 08:42:59.17 Server      Dedicated admin connection support was established for listening locally on port 1434.
+2022-09-16 08:42:59.17 spid38s     Server is listening on [ ::1 <ipv6> 1431].
+2022-09-16 08:42:59.18 spid38s     Server is listening on [ 127.0.0.1 <ipv4> 1431].
+2022-09-16 08:42:59.19 spid38s     SQL Server is now ready for client connections. This is an informational message; no user action is required.
+2022-09-16 08:42:59.93 spid43s     Parallel redo is started for database 'FlagServiceDB' with worker pool size [2].
+2022-09-16 08:43:00.01 spid10s     Parallel redo is shutdown for database 'FlagServiceDB' with worker pool size [2].
+2022-09-16 08:43:00.05 spid11s     Clearing tempdb database.
+2022-09-16 08:43:01.80 spid11s     [2]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-16 08:43:01.80 spid11s     Starting up database 'tempdb'.
+2022-09-16 08:43:05.13 spid11s     The tempdb database has 4 data file(s).
+2022-09-16 08:43:05.14 spid39s     The Service Broker endpoint is in disabled or stopped state.
+2022-09-16 08:43:05.15 spid39s     The Database Mirroring endpoint is in disabled or stopped state.
+2022-09-16 08:43:05.16 spid39s     Service Broker manager has started.
+2022-09-16 08:43:05.16 spid10s     Recovery is complete. This is an informational message only. No user action is required.
+2022-09-16 08:43:10.16 spid51      Attempting to load library 'xplog70.dll' into memory. This is an informational message only. No user action is required.
+2022-09-16 08:43:10.18 spid51      Using 'xplog70.dll' version '2019.150.4198' to execute extended stored procedure 'xp_msver'. This is an informational message only; no user action is required.
+2022-09-16 08:43:10.38 spid54      Attempting to load library 'xpsqlbot.dll' into memory. This is an informational message only. No user action is required.
+2022-09-16 08:43:10.38 spid54      Using 'xpsqlbot.dll' version '2019.150.4198' to execute extended stored procedure 'xp_qv'. This is an informational message only; no user action is required.
+2022-09-16 08:43:17.02 spid52      Attempting to load library 'xpstar.dll' into memory. This is an informational message only. No user action is required.
+2022-09-16 08:43:17.05 spid52      Using 'xpstar.dll' version '2019.150.4198' to execute extended stored procedure 'xp_instance_regread'. This is an informational message only; no user action is required.

@@ -1,4 +1,4 @@
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, gql, FetchResult } from "@apollo/client";
 import { CoreEntityFields } from './fragments/coreFragments';
 
 export interface DefaultServeValue {
@@ -6,6 +6,7 @@ export interface DefaultServeValue {
 }
 
 export interface Flag {
+  id: number;
   name: string;
   description: string;
   alias: string;
@@ -13,15 +14,7 @@ export interface Flag {
   defaultServeValue?: DefaultServeValue;
 }
 
-interface FlagListData {
-  flags: Flag[]
-}
-
-interface FlagData {
-  flag: Flag
-}
-
-interface FlagIdVars {
+export interface FlagIdVars {
   id: number
 }
 
@@ -38,7 +31,15 @@ const LIST_FLAGS = gql`
       isEnabled
     }
   }
-`;
+`
+
+export const ListFlags = () => {
+  interface FlagListData { flags: Flag[] }
+  const { data } = useQuery<FlagListData>(LIST_FLAGS);
+  // TBD error handling
+  return data?.flags;
+}
+
 
 const GET_FLAG = gql`
   ${ENTITY_FIELDS}
@@ -54,7 +55,17 @@ const GET_FLAG = gql`
       }
     }
   }
-`;
+`
+
+export const GetFlag = (id: number): Flag => {
+  interface FlagData { flag: Flag }
+  const { data } = useQuery<FlagData, FlagIdVars>(
+    GET_FLAG,
+    {variables: { id }}
+  );
+  // TBD error handling
+  return data!.flag;
+}
 
 
 const TOGGLE_FLAG = gql`
@@ -71,27 +82,12 @@ const TOGGLE_FLAG = gql`
       }
     }
   }
-`;
+`
 
-export const ListFlags = () => {
-  const { data } = useQuery<FlagListData>(LIST_FLAGS);
-  // TBD error handling
-  return data?.flags;
-}
-
-export const GetFlag = (id: number): Flag => {
-  const { data } = useQuery<FlagData, FlagIdVars>(
-    GET_FLAG,
-    {variables: { id }}
+export interface ToggleData { toggle: Flag }
+export const ToggleFlag = () => {
+  const [variables] = useMutation<ToggleData, FlagIdVars>(
+    TOGGLE_FLAG
   );
-  // TBD error handling
-  return data!.flag;
-}
-
-export const ToggleFlag = (id: number): Flag => {
-  const [_, { data }] = useMutation<FlagData, FlagIdVars>(
-    TOGGLE_FLAG,
-    {variables: { id }}
-  );
-  return data!.flag;
+  return variables;
 }

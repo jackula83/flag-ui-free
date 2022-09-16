@@ -11,7 +11,7 @@ const FlagPage: React.FC<any> = () => {
       <div className="row">        
           {flagData && flagData.map(flag => 
           <div className="col-12 grid-margin" key={flag.name}>
-            <FlagCard flag={flag} />
+            <FlagCard flagProp={flag} />
           </div>)}
       </div>
     </>      
