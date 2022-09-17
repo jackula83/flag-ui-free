@@ -11,27 +11,32 @@ interface IProps {
 const FlagCard: React.FC<IProps> = ({flagProp}) => {
 
   const [flag, setFlag] = useState<Flag>(flagProp);
+  const toggleCallback = ToggleFlag();
 
-  const toggleFlag = async (flagId: number) => {
-    const toggleFunc = ToggleFlag();
-    const { data } = await toggleFunc({
-      variables: {
-        id: flagId
-      }
-    });
-    setFlag(data!.toggle);
+  const toggleHandler = async (flagId: number) => {
+    try {
+      const { data } = await toggleCallback({
+        variables: {
+          id: parseInt(flagId.toString())
+        }
+      });      
+      setFlag(data!.toggle);
+    } catch (error) {
+      console.error(error)
+      console.error(JSON.stringify(error, null, 2))
+    }
   }
 
   const onButton = 
     <div 
       className="btn btn-gradient-success btn-rounded"
-      onClick={() => toggleFlag(flag.id)}>
+      onClick={() => toggleHandler(flag.id)}>
       On
     </div>
 
   const offButton = 
     <div className="btn btn-gradient-light btn-rounded"
-      onClick={() => toggleFlag(flag.id)}>
+      onClick={() => toggleHandler(flag.id)}>
       Off
     </div>
 

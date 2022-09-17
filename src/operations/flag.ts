@@ -23,12 +23,17 @@ const entityName = "Flag";
 const ENTITY_FIELDS = CoreEntityFields(entityName);
 
 const LIST_FLAGS = gql`
-  query {
+  ${ENTITY_FIELDS}
+  query Flags {
     flags {
-      id,
-      name,
-      alias,
+      ...CoreEntityFields
+      name
+      description
+      alias
       isEnabled
+      defaultServeValue {
+        state
+      }
     }
   }
 `
@@ -70,7 +75,7 @@ export const GetFlag = (id: number): Flag => {
 
 const TOGGLE_FLAG = gql`
   ${ENTITY_FIELDS}
-  mutation Toggle {
+  mutation Toggle($id: Int!) {
     toggle(id: $id) {
       ...CoreEntityFields
       name
@@ -84,6 +89,7 @@ const TOGGLE_FLAG = gql`
   }
 `
 
+export type MutationOptions<T> = (options?: any) => Promise<FetchResult<T>>
 export interface ToggleData { toggle: Flag }
 export const ToggleFlag = () => {
   const [variables] = useMutation<ToggleData, FlagIdVars>(
