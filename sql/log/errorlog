@@ -40,3 +40,41 @@
 2022-09-17 03:06:57.76 spid9s      Resource governor reconfiguration succeeded.
 2022-09-17 03:06:57.76 spid9s      SQL Server Audit is starting the audits. This is an informational message. No user action is required.
 2022-09-17 03:06:57.77 spid9s      SQL Server Audit has started the audits. This is an informational message. No user action is required.
+2022-09-17 03:06:58.16 spid9s      SQL Trace ID 1 was started by login "sa".
+2022-09-17 03:06:58.17 spid9s      Server name is '71e99b1bd483'. This is an informational message only. No user action is required.
+2022-09-17 03:06:58.19 spid37s     Always On: The availability replica manager is starting. This is an informational message only. No user action is required.
+2022-09-17 03:06:58.19 spid40s     [4]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-17 03:06:58.19 spid37s     Always On: The availability replica manager is waiting for the instance of SQL Server to allow client connections. This is an informational message only. No user action is required.
+2022-09-17 03:06:58.19 spid40s     Starting up database 'msdb'.
+2022-09-17 03:06:58.20 spid12s     [32767]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-17 03:06:58.21 spid42s     [5]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-17 03:06:58.21 spid12s     Starting up database 'mssqlsystemresource'.
+2022-09-17 03:06:58.22 spid42s     Starting up database 'FlagServiceDB'.
+2022-09-17 03:06:58.23 spid12s     The resource database build version is 15.00.4198. This is an informational message only. No user action is required.
+2022-09-17 03:06:58.26 spid36s     A self-generated certificate was successfully loaded for encryption.
+2022-09-17 03:06:58.27 spid12s     [3]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-17 03:06:58.27 spid12s     Starting up database 'model'.
+2022-09-17 03:06:58.27 spid36s     Server is listening on [ 'any' <ipv6> 1433].
+2022-09-17 03:06:58.28 spid36s     Server is listening on [ 'any' <ipv4> 1433].
+2022-09-17 03:06:58.28 Server      Server is listening on [ ::1 <ipv6> 1434].
+2022-09-17 03:06:58.29 Server      Server is listening on [ 127.0.0.1 <ipv4> 1434].
+2022-09-17 03:06:58.29 Server      Dedicated admin connection support was established for listening locally on port 1434.
+2022-09-17 03:06:58.29 spid36s     Server is listening on [ ::1 <ipv6> 1431].
+2022-09-17 03:06:58.30 spid36s     Server is listening on [ 127.0.0.1 <ipv4> 1431].
+2022-09-17 03:06:58.30 spid36s     SQL Server is now ready for client connections. This is an informational message; no user action is required.
+2022-09-17 03:06:58.91 spid40s     1 transactions rolled forward in database 'msdb' (4:0). This is an informational message only. No user action is required.
+2022-09-17 03:06:58.94 spid42s     Parallel redo is started for database 'FlagServiceDB' with worker pool size [2].
+2022-09-17 03:06:58.96 spid42s     3 transactions rolled forward in database 'FlagServiceDB' (5:0). This is an informational message only. No user action is required.
+2022-09-17 03:06:58.99 spid9s      0 transactions rolled back in database 'msdb' (4:0). This is an informational message only. No user action is required.
+2022-09-17 03:06:59.03 spid12s     Clearing tempdb database.
+2022-09-17 03:06:59.05 spid40s     0 transactions rolled back in database 'FlagServiceDB' (5:0). This is an informational message only. No user action is required.
+2022-09-17 03:06:59.06 spid40s     Parallel redo is shutdown for database 'FlagServiceDB' with worker pool size [2].
+2022-09-17 03:07:00.94 spid12s     [2]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2022-09-17 03:07:00.95 spid12s     Starting up database 'tempdb'.
+2022-09-17 03:07:03.63 spid12s     The tempdb database has 4 data file(s).
+2022-09-17 03:07:03.64 spid37s     The Service Broker endpoint is in disabled or stopped state.
+2022-09-17 03:07:03.64 spid37s     The Database Mirroring endpoint is in disabled or stopped state.
+2022-09-17 03:07:03.65 spid37s     Service Broker manager has started.
+2022-09-17 03:07:03.65 spid9s      Recovery is complete. This is an informational message only. No user action is required.
+2022-09-17 03:12:16.15 spid60      Attempting to load library 'xplog70.dll' into memory. This is an informational message only. No user action is required.
+2022-09-17 03:12:16.18 spid60      Using 'xplog70.dll' version '2019.150.4198' to execute extended stored procedure 'xp_msver'. This is an informational message only; no user action is required.
