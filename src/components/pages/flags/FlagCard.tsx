@@ -1,42 +1,44 @@
-import React, { useState } from 'react'
-import { Flag, ToggleFlag } from '../../../operations/flag'
+import React, { useContext, useState } from 'react'
+import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
+import { FlagContext } from '../../../providers/FlagProvider';
 
 interface IProps {
-  flagProp: Flag
+  flag: Flag
 }
 
 // http://jsfiddle.net/b9vtW/4/
 
-const FlagCard: React.FC<IProps> = ({flagProp}) => {
+const FlagCard: React.FC<IProps> = (props) => {
 
-  const [flag, setFlag] = useState<Flag>(flagProp);
-  const toggleCallback = ToggleFlag();
+  const [flag, setFlag] = useState<Flag>(props.flag);
 
-  const toggleHandler = async (flagId: number) => {
-    try {
-      const { data } = await toggleCallback({
-        variables: {
-          id: parseInt(flagId.toString())
-        }
-      });      
-      setFlag(data!.toggle);
-    } catch (error) {
-      console.error(error)
-      console.error(JSON.stringify(error, null, 2))
-    }
+  const flagContext = useContext(FlagContext);
+
+  const optimisticRenderWhileToggling = async (flagId: number) => {
+    setFlag({...flag, isEnabled: !flag.isEnabled});
+    const toggledFlag = await flagContext.toggle(flagId);
+    if (toggledFlag) setFlag(toggledFlag);
+    else setFlag({...flag, isEnabled: !flag.isEnabled});
+  }
+
+  const handleToggle = async (flagId: number) => {
+    // probably need to use a request queue here for it to be truly asynchronous
+    flagContext.atomicRequest(() => {
+      optimisticRenderWhileToggling(flagId)
+    });
   }
 
   const onButton = 
     <div 
       className="btn btn-gradient-success btn-rounded"
-      onClick={() => toggleHandler(flag.id)}>
+      onClick={() => handleToggle(flag.id)}>
       On
     </div>
 
   const offButton = 
     <div className="btn btn-gradient-light btn-rounded"
-      onClick={() => toggleHandler(flag.id)}>
+      onClick={() => handleToggle(flag.id)}>
       Off
     </div>
 

@@ -3,7 +3,9 @@ import { Flag, ListFlags, ToggleData, ToggleFlag } from '../operations/flag';
 
 export interface FlagContextProps {
   flags: Flag[],
-  toggle: (flagId: number) => Promise<Flag>
+  list: () => Flag[],
+  toggle: (flagId: number) => Promise<Flag>,
+  atomicRequest: <T,>(request: () => T) => T | undefined
 }
 
 export const FlagContext = React.createContext<FlagContextProps>({} as FlagContextProps);
@@ -12,12 +14,13 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
 
   const [flags, setFlags] = useState<Flag[]>([]);
   const [errors, setErrors] = useState<string[]>([])
+  const [requestLock, setRequestLock] = useState<boolean>(false);
   const toggleMutation = ToggleFlag();
+  const flagsResult = ListFlags();
 
   useEffect(() => {
-    const flagsResult = ListFlags();
     if (flagsResult) setFlags(flagsResult)
-  }, []);
+  }, [flagsResult]);
 
   const replaceFlagInState = (flag: Flag): void => 
     setFlags([...flags.filter(f => f.id !== flag.id), flag]);
@@ -39,6 +42,28 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
       setErrors([...errors, errorMessage]);
   }
 
+  const atomicRequest = <T,>(request: () => T): T | undefined => {
+    if (requestLock) return undefined;
+    setRequestLock(true);
+    try {
+      return request();
+    } catch (error) {
+      addErrorToState(error);
+    }
+    finally {
+      setRequestLock(false);
+    }
+  }
+
+  const list = (): Flag[] => {
+    try {
+      return ListFlags()!;
+    } catch (error) {
+      addErrorToState(error);
+    }
+    return [];
+  }
+
   const toggle = async (flagId: number): Promise<Flag> => {
     try {
       const toggledFlag = await getFlagAfterToggleMutation(flagId);
@@ -52,7 +77,9 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
 
   const value: FlagContextProps = {
     flags,
-    toggle
+    list,
+    toggle,
+    atomicRequest
   }
 
   return (

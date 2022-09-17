@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FlagCard from './FlagCard';
 import { ListFlags } from '../../../operations/flag';
+import { FlagContext } from '../../../providers/FlagProvider';
 
 const FlagPage: React.FC<any> = () => {
 
-  const flagData = ListFlags();
+  const flagContext = useContext(FlagContext);
+  const flagData = flagContext.list();
 
   return (
     <>
       <div className="row">        
           {flagData && flagData.map(flag => 
           <div className="col-12 grid-margin" key={flag.name}>
-            <FlagCard flagProp={flag} />
+            <FlagCard flag={flag} />
           </div>)}
       </div>
     </>      
