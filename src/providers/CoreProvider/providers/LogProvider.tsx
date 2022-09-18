@@ -23,8 +23,6 @@ export const LogProvider: React.FC<Props> = ({
   config
 }) => {
 
-  // const tryAsyncFunc = <T,>(func: ())
-
   const convertToText = (error: any): string => {    
       const errorMessage = typeof error === nameof<string>()
         ? error as string
@@ -63,15 +61,7 @@ export const LogProvider: React.FC<Props> = ({
   const tryWithLoggingAsync = async <T,>(
     func: () => Promise<Voidable<T>>, 
     final?: () => void
-  ): Promise<Voidable<T>> => {
-    try {
-      return await func();
-    } catch (e) {
-      error(e);
-    } finally {
-      if (final) final();
-    }
-  }
+  ): Promise<Voidable<T>> => tryWithLogging(() => Promise.resolve(func()), final);
 
   const value: LogProviderContext = {
     error,
