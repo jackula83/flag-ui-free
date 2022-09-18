@@ -9,6 +9,7 @@ import NavBar from './components/shared/NavBar';
 import FlagPage from './components/pages/flags/FlagPage';
 import MainPanel from './components/shared/MainPanel';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import FlagProvider from './providers/FlagProvider';
 
 const Container = styled.div`
   /* padding: 2rem; */
@@ -17,7 +18,10 @@ const Container = styled.div`
 `
 
 function App() {
-  const flagPageElement = <MainPanel title='Flags' page={<FlagPage />} />
+  const flagPageElement = (
+    <FlagProvider>
+      <MainPanel title='Flags' page={<FlagPage />} />
+    </FlagProvider>);
 
   return (
     <ThemeProvider theme={DefaultTheme}>

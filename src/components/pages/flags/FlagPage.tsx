@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FlagCard from './FlagCard';
-import { ListFlags } from './../../../operations/queries/flag';
+import { ListFlags } from '../../../operations/flag';
+import { FlagContext } from '../../../providers/FlagProvider';
 
 const FlagPage: React.FC<any> = () => {
 
-  const flagData = ListFlags();
+  const flagContext = useContext(FlagContext);
+  const flagData = flagContext.list();
 
   return (
     <>

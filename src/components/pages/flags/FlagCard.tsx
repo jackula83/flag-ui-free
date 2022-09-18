@@ -1,6 +1,8 @@
-import React from 'react'
-import { Flag } from '../../../operations/queries/flag'
+import React, { useContext, useRef, useState } from 'react'
+import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
+import { FlagContext } from '../../../providers/FlagProvider';
+import { createLock, Lock, makeExclusiveRequest } from '../../../core/utils';
 
 interface IProps {
   flag: Flag
@@ -8,9 +10,41 @@ interface IProps {
 
 // http://jsfiddle.net/b9vtW/4/
 
-const FlagCard: React.FC<IProps> = ({flag}) => {
-  const onButton = <div className="btn btn-gradient-success btn-rounded">On</div>
-  const offButton = <div className="btn btn-gradient-light btn-rounded">Off</div>
+const FlagCard: React.FC<IProps> = (props) => {
+
+  const [flag, setFlag] = useState<Flag>(props.flag);
+  const toggleLock = useRef<Lock>(createLock());
+
+  const flagContext = useContext(FlagContext);
+
+  const optimisticToggle = async (flagId: number) => {
+    setFlag({...flag, isEnabled: !flag.isEnabled});
+    const toggledFlag = await flagContext.toggle(flagId);
+    if (toggledFlag) setFlag(toggledFlag);
+    else setFlag({...flag, isEnabled: !flag.isEnabled});
+  }
+
+  const handleToggle = async (flagId: number) => {
+    const [_, error] = await makeExclusiveRequest(async () => {
+      await optimisticToggle(flagId)
+    }, toggleLock.current);
+    // TBD consolidate this with a log provider in the future
+    error && console.error(`${nameof(FlagCard)}.${nameof(handleToggle)}: `, error);
+  }
+
+  const onButton = 
+    <div 
+      className="btn btn-gradient-success btn-rounded"
+      onClick={() => handleToggle(flag.id)}>
+      On
+    </div>
+
+  const offButton = 
+    <div className="btn btn-gradient-light btn-rounded"
+      onClick={() => handleToggle(flag.id)}>
+      Off
+    </div>
+
   return (
     <>
     <Wrapper>
