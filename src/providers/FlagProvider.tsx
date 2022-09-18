@@ -4,8 +4,7 @@ import { Flag, ListFlags, ToggleData, ToggleFlag } from '../operations/flag';
 export interface FlagContextProps {
   flags: Flag[],
   list: () => Flag[],
-  toggle: (flagId: number) => Promise<Flag>,
-  atomicRequest: <T,>(request: () => T) => T | undefined
+  toggle: (flagId: number) => Promise<Flag>
 }
 
 export const FlagContext = React.createContext<FlagContextProps>({} as FlagContextProps);
@@ -14,7 +13,6 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
 
   const [flags, setFlags] = useState<Flag[]>([]);
   const [errors, setErrors] = useState<string[]>([])
-  const [requestLock, setRequestLock] = useState<boolean>(false);
   const toggleMutation = ToggleFlag();
   const flagsResult = ListFlags();
 
@@ -42,19 +40,6 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
       setErrors([...errors, errorMessage]);
   }
 
-  const atomicRequest = <T,>(request: () => T): T | undefined => {
-    if (requestLock) return undefined;
-    setRequestLock(true);
-    try {
-      return request();
-    } catch (error) {
-      addErrorToState(error);
-    }
-    finally {
-      setRequestLock(false);
-    }
-  }
-
   const list = (): Flag[] => {
     try {
       return ListFlags()!;
@@ -78,8 +63,7 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
   const value: FlagContextProps = {
     flags,
     list,
-    toggle,
-    atomicRequest
+    toggle
   }
 
   return (

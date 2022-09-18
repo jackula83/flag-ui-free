@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
 import { FlagContext } from '../../../providers/FlagProvider';
+import { createLock, Lock, makeExclusiveRequest } from '../../../core/utils';
 
 interface IProps {
   flag: Flag
@@ -12,10 +13,11 @@ interface IProps {
 const FlagCard: React.FC<IProps> = (props) => {
 
   const [flag, setFlag] = useState<Flag>(props.flag);
+  const toggleLock = useRef<Lock>(createLock());
 
   const flagContext = useContext(FlagContext);
 
-  const optimisticRenderWhileToggling = async (flagId: number) => {
+  const optimisticToggle = async (flagId: number) => {
     setFlag({...flag, isEnabled: !flag.isEnabled});
     const toggledFlag = await flagContext.toggle(flagId);
     if (toggledFlag) setFlag(toggledFlag);
@@ -23,10 +25,11 @@ const FlagCard: React.FC<IProps> = (props) => {
   }
 
   const handleToggle = async (flagId: number) => {
-    // probably need to use a request queue here for it to be truly asynchronous
-    flagContext.atomicRequest(() => {
-      optimisticRenderWhileToggling(flagId)
-    });
+    const [_, error] = await makeExclusiveRequest(async () => {
+      await optimisticToggle(flagId)
+    }, toggleLock.current);
+    // TBD consolidate this with a log provider in the future
+    error && console.error(`${nameof(FlagCard)}.${nameof(handleToggle)}: `, error);
   }
 
   const onButton = 
