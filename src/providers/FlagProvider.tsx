@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Flag, ListFlags, ToggleData, ToggleFlag } from '../operations/flag';
+import React, { useContext, useEffect, useState } from 'react';
+import { Voidable } from '../core/core';
+import { Flag, ListFlags, ToggleFlag } from '../operations/flag';
+import { LogContext } from './CoreProvider/providers/LogProvider';
 
-export interface FlagContextProps {
+export type FlagContextProps = {
   flags: Flag[],
   list: () => Flag[],
   toggle: (flagId: number) => Promise<Flag>
@@ -12,18 +14,14 @@ export const FlagContext = React.createContext<FlagContextProps>({} as FlagConte
 export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
 
   const [flags, setFlags] = useState<Flag[]>([]);
-  const [errors, setErrors] = useState<string[]>([])
   const toggleMutation = ToggleFlag();
-  const flagsResult = ListFlags();
 
-  useEffect(() => {
-    if (flagsResult) setFlags(flagsResult)
-  }, [flagsResult]);
+  const logContext = useContext(LogContext);
 
   const replaceFlagInState = (flag: Flag): void => 
     setFlags([...flags.filter(f => f.id !== flag.id), flag]);
 
-  const getFlagAfterToggleMutation = async (flagId: number) => {
+  const toggleAndReturnFlag = async (flagId: number) => {
       const { data } = await toggleMutation({
         variables: {
           id: parseInt(flagId.toString())
@@ -33,29 +31,18 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
       return toggledFlag;
   }
 
-  const addErrorToState = (error: any) => {
-      const errorMessage = typeof error === nameof<string>()
-        ? error as string
-        : JSON.stringify(error, null, 2);
-      setErrors([...errors, errorMessage]);
-  }
-
   const list = (): Flag[] => {
-    try {
-      return ListFlags()!;
-    } catch (error) {
-      addErrorToState(error);
-    }
+    const result = logContext.tryWithLogging<Flag[]>(() => ListFlags());
+    if (result) return result;
     return [];
   }
 
   const toggle = async (flagId: number): Promise<Flag> => {
-    try {
-      const toggledFlag = await getFlagAfterToggleMutation(flagId);
+    const toggledFlag = await logContext.tryWithLoggingAsync<Flag>(async () => 
+      await toggleAndReturnFlag(flagId));
+    if (toggledFlag) {
       replaceFlagInState(toggledFlag);
       return toggledFlag;
-    } catch (error) {
-      addErrorToState(error);
     }
     return {} as Flag;
   }
