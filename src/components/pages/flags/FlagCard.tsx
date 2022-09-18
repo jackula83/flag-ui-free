@@ -3,19 +3,19 @@ import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
 import { FlagContext } from '../../../providers/FlagProvider';
 import { createLock, Lock, makeExclusiveRequest } from '../../../core/utils';
+import { LogContext } from '../../../providers/CoreProvider/providers/LogProvider';
 
-interface IProps {
+type Props = {
   flag: Flag
 }
 
-// http://jsfiddle.net/b9vtW/4/
+const FlagCard: React.FC<Props> = (props) => {
 
-const FlagCard: React.FC<IProps> = (props) => {
+  const flagContext = useContext(FlagContext);
+  const logContext = useContext(LogContext);
 
   const [flag, setFlag] = useState<Flag>(props.flag);
   const toggleLock = useRef<Lock>(createLock());
-
-  const flagContext = useContext(FlagContext);
 
   const optimisticToggle = async (flagId: number) => {
     setFlag({...flag, isEnabled: !flag.isEnabled});
@@ -25,11 +25,11 @@ const FlagCard: React.FC<IProps> = (props) => {
   }
 
   const handleToggle = async (flagId: number) => {
-    const [_, error] = await makeExclusiveRequest(async () => {
-      await optimisticToggle(flagId)
+    const toggleRequest = async () => await optimisticToggle(flagId);
+    const loggedRequest = async () => await logContext.tryWithLoggingAsync(toggleRequest);
+    await makeExclusiveRequest(async () => {
+      await loggedRequest()
     }, toggleLock.current);
-    // TBD consolidate this with a log provider in the future
-    error && console.error(`${nameof(FlagCard)}.${nameof(handleToggle)}: `, error);
   }
 
   const onButton = 

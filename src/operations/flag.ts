@@ -38,11 +38,11 @@ const LIST_FLAGS = gql`
   }
 `
 
-export const ListFlags = () => {
-  interface FlagListData { flags: Flag[] }
+type FlagListData = { flags: Flag[] }
+export const ListFlags = (): Flag[] => {
   const { data } = useQuery<FlagListData>(LIST_FLAGS);
   // TBD error handling
-  return data?.flags;
+  return data?.flags!;
 }
 
 
