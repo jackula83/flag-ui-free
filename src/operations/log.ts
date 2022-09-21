@@ -1,15 +1,11 @@
-import { useQuery, useMutation, gql, FetchResult } from "@apollo/client";
-import { CoreEntityFields } from './fragments/coreFragments';
+import { useMutation, gql } from "@apollo/client";
 
 export interface DefaultServeValue {
   state: boolean;
 }
 
 export type Log = {
-  id: number,
-  message: string,
-  type: string,
-  source: string
+  message: string
 }
 
 export const TypeInfo = 'info'
@@ -28,7 +24,7 @@ type LogInput = {
 
 const ADD_LOG = gql`
   mutation AddLog($input: LogInput!) {
-    toggle(input: $input) {
+    addLog(input: $input) {
       message
     }
   }
@@ -45,6 +41,6 @@ export const createLogInput = (message: string, type: string): LogInput => {
 }
 
 export const AddLog = () => {
-  const [variables] = useMutation<Log, LogInput>(ADD_LOG);
-  return variables;
+  const [addLogMutation] = useMutation<Log, LogInput>(ADD_LOG);
+  return addLogMutation;
 }

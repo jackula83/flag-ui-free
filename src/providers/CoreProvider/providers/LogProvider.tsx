@@ -1,5 +1,6 @@
 import React from 'react';
 import { Voidable } from '../../../core/core';
+import { AddLog, createLogInput } from '../../../operations/log';
 
 export type LogProviderContext = {
   error: (error: any, consoleOut?: boolean) => string,
@@ -23,24 +24,32 @@ export const LogProvider: React.FC<Props> = ({
   config
 }) => {
 
-  const convertToText = (error: any): string => {    
-      const errorMessage = typeof error === nameof<string>()
+  const logMutation = AddLog();
+
+  const convertToText = (error: any): string => {
+      const errorMessage = typeof error === "string"
         ? error as string
         : JSON.stringify(error, null, config?.jsonIdentation ?? 2);
       return errorMessage;
   }
 
-  // TBD log this to server
-  const logToServer = (message: string) => {}
+  const logToServer = (message: string) => {
+    try {
+      const logInput = {
+        variables: {
+          ...createLogInput(message, 'error')
+        }
+      };
+      logMutation(logInput);
+    } catch (logError) {
+      console.error('error sending log to server')
+    }
+  }
 
   const error = (error: any, consoleOut: boolean = true): string => {
     const message = convertToText(error);
     if (consoleOut) console.error(message);
-    try {
-      logToServer(message);
-    } catch (logError) {
-
-    }
+    logToServer(message);
     return message;
   }
 
