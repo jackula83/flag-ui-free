@@ -41,7 +41,6 @@ const LIST_FLAGS = gql`
 type FlagListData = { flags: Flag[] }
 export const ListFlags = (): Flag[] => {
   const { data } = useQuery<FlagListData>(LIST_FLAGS);
-  // TBD error handling
   return data?.flags!;
 }
 
@@ -68,15 +67,14 @@ export const GetFlag = (id: number): Flag => {
     GET_FLAG,
     {variables: { id }}
   );
-  // TBD error handling
   return data!.flag;
 }
 
 
 const TOGGLE_FLAG = gql`
   ${ENTITY_FIELDS}
-  mutation Toggle($id: Int!) {
-    toggle(id: $id) {
+  mutation ToggleFlag($id: Int!) {
+    toggleFlag(id: $id) {
       ...CoreEntityFields
       name
       description
@@ -90,8 +88,8 @@ const TOGGLE_FLAG = gql`
 `
 
 export type MutationOptions<T> = (options?: any) => Promise<FetchResult<T>>
-export interface ToggleData { toggle: Flag }
-export const ToggleFlag = () => {
+export interface ToggleData { toggleFlag: Flag }
+export const useToggleMutation = () => {
   const [variables] = useMutation<ToggleData, FlagIdVars>(
     TOGGLE_FLAG
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Voidable } from '../../../core/core';
-import { AddLog, createLogInput } from '../../../operations/log';
+import { useAddLogMutation, createLogInput } from '../../../operations/log';
 
 export type LogProviderContext = {
   error: (error: any, consoleOut?: boolean) => string,
@@ -24,7 +24,7 @@ export const LogProvider: React.FC<Props> = ({
   config
 }) => {
 
-  const logMutation = AddLog();
+  const logMutation = useAddLogMutation();
 
   const convertToText = (error: any): string => {
       const errorMessage = typeof error === "string"

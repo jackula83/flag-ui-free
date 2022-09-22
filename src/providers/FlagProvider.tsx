@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Voidable } from '../core/core';
-import { Flag, ListFlags, ToggleFlag } from '../operations/flag';
+import { Flag, ListFlags, useToggleMutation } from '../operations/flag';
 import { LogContext } from './CoreProvider/providers/LogProvider';
 
 export type FlagContextProps = {
@@ -14,7 +14,7 @@ export const FlagContext = React.createContext<FlagContextProps>({} as FlagConte
 export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
 
   const [flags, setFlags] = useState<Flag[]>([]);
-  const toggleMutation = ToggleFlag();
+  const toggleMutation = useToggleMutation();
 
   const logContext = useContext(LogContext);
 
@@ -27,7 +27,7 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
           id: parseInt(flagId.toString())
         }
       }); 
-      const { toggle: toggledFlag } = data!;
+      const { toggleFlag: toggledFlag } = data!;
       return toggledFlag;
   }
 
