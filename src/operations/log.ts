@@ -40,7 +40,7 @@ export const createLogInput = (message: string, type: string): LogInput => {
   };
 }
 
-export const AddLog = () => {
+export const useAddLogMutation = () => {
   const [addLogMutation] = useMutation<Log, LogInput>(ADD_LOG);
   return addLogMutation;
 }
