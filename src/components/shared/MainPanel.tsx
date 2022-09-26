@@ -2,10 +2,10 @@ import React, { ReactNode } from 'react'
 
 interface IProps {
   title: string
-  page: ReactNode
+  children?: ReactNode
 }
 
-const MainPanel: React.FC<IProps> = ({title, page}) => {
+const MainPanel = ({title, children}: IProps) => {
   return (
     <>    
         <div className="main-panel">
@@ -14,7 +14,7 @@ const MainPanel: React.FC<IProps> = ({title, page}) => {
               <h3 className="page-title">{title}</h3>
             </div>
             <div className="row">
-              {page}
+              {children}
             </div>
           </div>
         </div>

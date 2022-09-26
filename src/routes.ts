@@ -1,3 +1,4 @@
-export const FlagRoute = '/flags'
-export const FlagEditRoute = `${FlagRoute}/edit/:flagUuid`
-export const SegmentRoute = '/segments'
+export const FlagRoute = '/flag'
+export const FlagListRoute = `${FlagRoute}/list`
+export const FlagEditRoute = `${FlagRoute}/edit`
+export const SegmentRoute = '/segment'

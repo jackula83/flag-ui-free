@@ -1,6 +1,7 @@
 import React from 'react';
 import { Voidable } from '../../../core/core';
 import { useAddLogMutation, createLogInput } from '../../../operations/log';
+import { isDevelopment, isFree } from './../../../config';
 
 export type LogProviderContext = {
   error: (error: any, consoleOut?: boolean) => string,
@@ -29,6 +30,8 @@ export const LogProvider: React.FC<Props> = ({
   config
 }) => {
 
+  const defaultConsoleOut = isDevelopment() || isFree();
+
   const logMutation = useAddLogMutation();
 
   const convertToText = (error: any): string => {
@@ -51,7 +54,7 @@ export const LogProvider: React.FC<Props> = ({
     }
   }
 
-  const error = (error: any, consoleOut: boolean = true): string => {
+  const error = (error: any, consoleOut: boolean = defaultConsoleOut): string => {
     const message = convertToText(error);
     if (consoleOut) console.error(message);
     logToServer(message);

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Voidable } from '../core/core';
 import { createFlagHeaderInput, Flag, ListFlags, useToggleMutation } from '../operations/flag';
 import { LogContext } from './CoreProvider/providers/LogProvider';
@@ -8,7 +8,7 @@ export type FlagContextProps = {
   flags: Flag[],
   list: () => Flag[],
   toggle: (flagId: number) => Promise<Flag>,
-  add: (name: string, description: string) => Promise<Flag>
+  add: (name: string, description: string) => Promise<Voidable<Flag>>
 }
 
 export const FlagContext = React.createContext<FlagContextProps>({} as FlagContextProps);
@@ -58,10 +58,10 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
     return toggledFlag!;
   }
 
-  const add = async (name: string, description: string): Promise<Flag> => {
+  const add = async (name: string, description: string): Promise<Voidable<Flag>> => {
     const [addedFlag, error] = await logContext.tryWithLoggingAsync<Flag>(async () =>
       await addAndReturnFlag(name, description));
-    if (error) return {} as Flag;
+    if (error) return undefined;
     setFlags([...flags, addedFlag!]);
     return addedFlag!;
   }

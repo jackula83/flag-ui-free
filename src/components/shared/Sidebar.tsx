@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { NavItem } from 'reactstrap';
-import { FlagRoute, SegmentRoute } from './../../routes';
+import { FlagListRoute, SegmentRoute, FlagRoute } from './../../routes';
 
 const SideBar: React.FC<any> = () => {
 
@@ -22,7 +22,7 @@ const SideBar: React.FC<any> = () => {
   const createNavLinks = () => {
     return [
       createNavLink('Dashboard', 'mdi-home', '/'),
-      createNavLink('Feature Flags', 'mdi-flag-variant', FlagRoute),
+      createNavLink('Feature Flags', 'mdi-flag-variant', `${FlagListRoute}`),
       createNavLink('Segments', 'mdi-chart-pie', SegmentRoute)
     ];
   }
