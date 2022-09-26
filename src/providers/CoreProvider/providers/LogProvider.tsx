@@ -5,8 +5,13 @@ import { useAddLogMutation, createLogInput } from '../../../operations/log';
 export type LogProviderContext = {
   error: (error: any, consoleOut?: boolean) => string,
   info: (message: string, consoleOut?: boolean) => void,
-  tryWithLogging: <T>(func: () => T, final?: () => void) => Voidable<T>,
-  tryWithLoggingAsync: <T>(func: () => Promise<Voidable<T>>, final?: () => void) => Promise<Voidable<T>>
+  tryWithLogging: <T>(func: () => T, final?: () => void) => [
+    Voidable<T>, 
+    string
+  ],
+  tryWithLoggingAsync: <T>(func: () => Promise<Voidable<T>>, final?: () => void) => Promise<[
+    Voidable<T>, string
+  ]>
 }
 
 export const LogContext = React.createContext<LogProviderContext>({} as LogProviderContext);
@@ -57,11 +62,11 @@ export const LogProvider: React.FC<Props> = ({
     if (consoleOut) console.log(message);
   }
 
-  const tryWithLogging = <T,>(func: () => T, final?: () => void): Voidable<T> => {
+  const tryWithLogging = <T,>(func: () => T, final?: () => void): [Voidable<T>, string] => {
     try {
-      return func();
+      return [func(), ''];
     } catch (e) {
-      error(e);
+      return [{} as T, error(e)];
     } finally {
       if (final) final();
     }
@@ -70,7 +75,15 @@ export const LogProvider: React.FC<Props> = ({
   const tryWithLoggingAsync = async <T,>(
     func: () => Promise<Voidable<T>>, 
     final?: () => void
-  ): Promise<Voidable<T>> => tryWithLogging(() => Promise.resolve(func()), final);
+  ): Promise<[Voidable<T>, string]> => {
+    try {
+      return [await func(), ''];
+    } catch (e) {
+      return [undefined, error(e)];
+    } finally {
+      if (final) final();
+    }
+  }
 
   const value: LogProviderContext = {
     error,

@@ -12,7 +12,6 @@ type Props = {
 const FlagCard: React.FC<Props> = (props) => {
 
   const flagContext = useContext(FlagContext);
-  const logContext = useContext(LogContext);
 
   const [flag, setFlag] = useState<Flag>(props.flag);
   const toggleLock = useRef<Lock>(createLock());
@@ -26,9 +25,8 @@ const FlagCard: React.FC<Props> = (props) => {
 
   const handleToggle = async (flagId: number) => {
     const toggleRequest = async () => await optimisticToggle(flagId);
-    const loggedRequest = async () => await logContext.tryWithLoggingAsync(toggleRequest);
     await makeExclusiveRequest(async () => {
-      await loggedRequest()
+      await toggleRequest()
     }, toggleLock.current);
   }
 

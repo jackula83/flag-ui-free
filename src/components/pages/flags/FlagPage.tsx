@@ -2,16 +2,18 @@ import React, { useContext, useEffect, useState } from 'react';
 import FlagCard from './FlagCard';
 import { FlagContext } from '../../../providers/FlagProvider';
 import { FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Voidable } from '../../../core/core';
+import { useNavigate } from 'react-router-dom';
+import { FlagEditRoute } from '../../../routes';
+import { FlagRoute } from './../../../routes';
 
-const FlagPage: React.FC<any> = () => {
+const FlagPage: React.FC<any> = ({}) => {
   
   const flagNameFieldId = 'flagName';
   const flagDescriptionFieldId = 'flagDescription';
 
+  const navigate = useNavigate();
   const flagContext = useContext(FlagContext);
   const flagData = flagContext.list();
-
   
   const [isAddFlagModalOpen, setAddFlagModalOpen] = useState<boolean>(false);
   const [flagName, setFlagName] = useState<string>('');
@@ -38,6 +40,12 @@ const FlagPage: React.FC<any> = () => {
 
   const handleFlagDescriptionOnchange = (value: string) => {
     setFlagDescription(value);
+  }
+
+  const handleAddFlag = async () => {
+    const flag = await flagContext.add(flagName, flagDescription);
+    if (!flag) return;
+    navigate(`${FlagRoute}/${flag.uuid}`);
   }
 
   const handleOnModalClose = () => {
@@ -93,7 +101,8 @@ const FlagPage: React.FC<any> = () => {
           {addFlagForm()}
         </ModalBody>
         <ModalFooter>
-          <div className="btn btn-gradient-primary">Do Something</div>
+          <div className="btn btn-gradient-primary" onClick={() => handleAddFlag()}>Do Something</div>
+          <div className="btn btn-gradient-second" onClick={() => handleOnModalClose()}>Cancel</div>
         </ModalFooter>
       </Modal>
     );

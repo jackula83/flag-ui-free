@@ -7,6 +7,7 @@ export interface DefaultServeValue {
 
 export interface Flag {
   id: number;
+  uuid: string;
   name: string;
   description: string;
   alias: string;
@@ -87,11 +88,46 @@ const TOGGLE_FLAG = gql`
   }
 `
 
-export type MutationOptions<T> = (options?: any) => Promise<FetchResult<T>>
+// export type MutationOptions<T> = (options?: any) => Promise<FetchResult<T>>
 export interface ToggleData { toggleFlag: Flag }
 export const useToggleMutation = () => {
   const [variables] = useMutation<ToggleData, FlagIdVars>(
     TOGGLE_FLAG
   );
   return variables;
+}
+
+const ADD_FLAG = gql`
+  mutation AddFlag($flagHeader: FlagHeaderInput!) {
+    addFlag(flagHeader: $flagHeader) {
+      id,
+      name,
+      description,
+      alias,
+      isEnabled,
+      defaultServeValue {
+        state
+      }
+    }
+  }
+`
+
+type FlagHeaderInput = {
+  flagHeader: {
+    name: string,
+    description: string
+  }
+}
+export interface AddFlagData { addFlag: Flag }
+export const createFlagHeaderInput = (name: string, description: string): FlagHeaderInput => {
+  return {
+    flagHeader: {
+      name,
+      description
+    }
+  };
+}
+export const useAddFlagMutation = () => {
+  const [addFlagMutation] = useMutation<AddFlagData, FlagHeaderInput>(ADD_FLAG);
+  return addFlagMutation;
 }
