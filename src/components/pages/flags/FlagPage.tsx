@@ -25,17 +25,14 @@ const FlagList = () => {
       return 'Flag name must be at least 4 characters';
     else if (/^[\w-]+$/.test(value) === false) 
       return 'Flag name can only contain - and alphanumeric characters';
-    else if (flagContext.flags.findIndex(f => f.name === value))
+    else if (flagContext.flags?.find(f => f.name === value.toLowerCase()))
       return 'Flag already exists, please choose another name';
   }
 
   const handleFlagNameOnChange = (value: string) => {
     const errorMessage = validateFlagName(value);
-    if (errorMessage) {
-      setFlagNameError(errorMessage);
-      return;
-    }
-    setFlagNameError('');
+    if (errorMessage) setFlagNameError(errorMessage);
+    else setFlagNameError('');
     setFlagName(value);
   }
 
@@ -45,7 +42,10 @@ const FlagList = () => {
 
   const handleSubmitFlag = async () => {
     const errorMessage = validateFlagName(flagName);
-    if (errorMessage) return;
+    if (errorMessage) {
+      setFlagNameError(errorMessage);
+      return;
+    }
     const flag = await flagContext.add(flagName, flagDescription);
     if (!flag) { 
       setSubmitErrorMessage('An unknown error had occured 😿');
@@ -62,7 +62,7 @@ const FlagList = () => {
     setAddModalOpen(false);
   }
 
-  const addFlagForm = () => {
+  const addFlagModalBody = () => {
     return (
       <>
         <FormGroup>
@@ -91,6 +91,22 @@ const FlagList = () => {
     );
   }
 
+  const addFlagModalFooter = () => {
+    return (
+      <>
+        <div className="btn btn-gradient-primary" onClick={() => handleSubmitFlag()}>+ Add</div>
+        <div className="btn btn-gradient-second" onClick={() => handleOnModalClose()}>Cancel</div>
+        {
+          submitErrorMessage && 
+          <>
+            <Input invalid hidden />
+            <FormFeedback className='text-center'>{submitErrorMessage}</FormFeedback>
+          </>
+        }
+      </>
+    )
+  }
+
   const addFlagModal = () => {    
     return (
       <Modal 
@@ -98,23 +114,9 @@ const FlagList = () => {
         toggle={() => setAddModalOpen(!addModalOpen)}
         onClosed={() => handleOnModalClose()}
       >
-        <ModalHeader toggle={() => setAddModalOpen(!addModalOpen)}>
-          Add a new flag
-        </ModalHeader>
-        <ModalBody>
-          {addFlagForm()}
-        </ModalBody>
-        <ModalFooter>
-          <div className="btn btn-gradient-primary" onClick={() => handleSubmitFlag()}>+ Add</div>
-          <div className="btn btn-gradient-second" onClick={() => handleOnModalClose()}>Cancel</div>
-          {
-            submitErrorMessage && 
-            <>
-              <Input invalid hidden />
-              <FormFeedback className='text-center'>{submitErrorMessage}</FormFeedback>
-            </>
-          }
-        </ModalFooter>
+        <ModalHeader>Add a new flag</ModalHeader>
+        <ModalBody>{addFlagModalBody()}</ModalBody>
+        <ModalFooter>{addFlagModalFooter()}</ModalFooter>
       </Modal>
     );
   }

@@ -57,7 +57,8 @@ const FlagCard: React.FC<Props> = (props) => {
         <div className="card-body py-3">
           <div className="row">
             <div className="col-10">
-              <h4 className="card-title" onClick={handleTitleClick}>{flag.name}</h4>
+              <h4 className="card-title" onClick={handleTitleClick}>
+                <a className='text-dark text-decoration-none text-lowercase' href='#'>{flag.name}</a></h4>
               <p className="card-description m-1">{flag.description}</p>
             </div>
             <div className="col-2">

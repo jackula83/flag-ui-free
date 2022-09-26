@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Voidable } from '../core/core';
 import { createFlagHeaderInput, Flag, ListFlags, useToggleMutation } from '../operations/flag';
 import { LogContext } from './CoreProvider/providers/LogProvider';
 import { useAddFlagMutation } from './../operations/flag';
 
 export type FlagContextProps = {
-  flags: Flag[],
+  flags: Voidable<Flag[]>,
   list: () => Flag[],
   toggle: (flagId: number) => Promise<Flag>,
   add: (name: string, description: string) => Promise<Voidable<Flag>>
@@ -15,14 +15,19 @@ export const FlagContext = React.createContext<FlagContextProps>({} as FlagConte
 
 export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
 
-  const [flags, setFlags] = useState<Flag[]>([]);
+  const initialFlags = ListFlags();
+  const [flags, setFlags] = useState<Voidable<Flag[]>>(undefined);
   const toggleMutation = useToggleMutation();
   const addMutation = useAddFlagMutation();
+
+  useEffect(() => {
+    setFlags(initialFlags);
+  }, [initialFlags])
 
   const logContext = useContext(LogContext);
 
   const replaceFlagInState = (flag: Flag): void => 
-    setFlags([...flags.filter(f => f.id !== flag.id), flag]);
+    setFlags([...flags!.filter(f => f.id !== flag.id), flag]);
 
   const toggleAndReturnFlag = async (flagId: number) => {
       const { data } = await toggleMutation({
@@ -45,9 +50,8 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
   }
 
   const list = (): Flag[] => {
-    const [result, error] = logContext.tryWithLogging<Flag[]>(() => ListFlags());
-    if (error) return [];
-    return result!;
+    if (flags) return flags;
+    return [];
   }
 
   const toggle = async (flagId: number): Promise<Flag> => {
@@ -62,7 +66,7 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
     const [addedFlag, error] = await logContext.tryWithLoggingAsync<Flag>(async () =>
       await addAndReturnFlag(name, description));
     if (error) return undefined;
-    setFlags([...flags, addedFlag!]);
+    setFlags([...flags!, addedFlag!]);
     return addedFlag!;
   }
 
