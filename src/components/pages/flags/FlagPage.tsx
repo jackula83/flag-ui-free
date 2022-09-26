@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext,  useState } from 'react';
 import FlagCard from './FlagCard';
 import { FlagContext } from '../../../providers/FlagProvider';
 import { FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
@@ -10,9 +10,9 @@ const FlagList = () => {
   const flagNameFieldId = 'flagName';
   const flagDescriptionFieldId = 'flagDescription';
 
-  const navigate = useNavigate();
   const flagContext = useContext(FlagContext);
   const flagData = flagContext.list();
+  const navigate = useNavigate();
   
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [flagName, setFlagName] = useState<string>('');

@@ -3,7 +3,6 @@ import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
 import { FlagContext } from '../../../providers/FlagProvider';
 import { createLock, Lock, makeExclusiveRequest } from '../../../core/utils';
-import { LogContext } from '../../../providers/CoreProvider/providers/LogProvider';
 import { useNavigate } from 'react-router-dom';
 import { FlagEditRoute } from './../../../routes';
 
