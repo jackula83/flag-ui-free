@@ -101,6 +101,7 @@ const ADD_FLAG = gql`
   mutation AddFlag($flagHeader: FlagHeaderInput!) {
     addFlag(flagHeader: $flagHeader) {
       id,
+      uuid,
       name,
       description,
       alias,

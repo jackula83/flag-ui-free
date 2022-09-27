@@ -1,19 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Voidable } from '../core/core';
-import { createFlagHeaderInput, Flag, ListFlags, useToggleMutation } from '../operations/flag';
-import { LogContext } from './CoreProvider/providers/LogProvider';
-import { useAddFlagMutation } from './../operations/flag';
+import { Voidable } from '../../core/core';
+import { createFlagHeaderInput, Flag, ListFlags, useToggleMutation } from '../../operations/flag';
+import { LogContext } from '../CoreProvider/providers/LogProvider/provider';
+import { useAddFlagMutation } from './../../operations/flag';
 
-export type FlagContextProps = {
+type FlagContextProps = {
   flags: Voidable<Flag[]>,
-  list: () => Flag[],
   toggle: (flagId: number) => Promise<Flag>,
   add: (name: string, description: string) => Promise<Voidable<Flag>>
 }
 
 export const FlagContext = React.createContext<FlagContextProps>({} as FlagContextProps);
 
-export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
+export const Provider: React.FC<React.PropsWithChildren> = ({children}) => {
 
   const initialFlags = ListFlags();
   const [flags, setFlags] = useState<Voidable<Flag[]>>(undefined);
@@ -26,9 +25,6 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
 
   const logContext = useContext(LogContext);
 
-  const replaceFlagInState = (flag: Flag): void => 
-    setFlags([...flags!.filter(f => f.id !== flag.id), flag]);
-
   const toggleAndReturnFlag = async (flagId: number) => {
       const { data } = await toggleMutation({
         variables: {
@@ -37,6 +33,13 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
       }); 
       const { toggleFlag: toggledFlag } = data!;
       return toggledFlag;
+  }
+
+  const updateAndReturnFlag = (flag: Flag): Flag => {
+    const matchingFlag = flags?.find(f => f.id === flag.id);
+    if (matchingFlag) setFlags([...flags!.filter(f => f.id !== flag.id), flag]);
+    else setFlags([...flags!, flag]);
+    return flag;
   }
 
   const addAndReturnFlag = async (name: string, description: string) => {
@@ -49,30 +52,22 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
     return addFlagData;
   }
 
-  const list = (): Flag[] => {
-    if (flags) return flags;
-    return [];
+  const add = async (name: string, description: string): Promise<Voidable<Flag>> => {
+    const [addedFlag, error] = await logContext.withLoggingAsync<Flag>(async () =>
+      await addAndReturnFlag(name, description));
+    if (error) return undefined;
+    return updateAndReturnFlag(addedFlag!);
   }
 
   const toggle = async (flagId: number): Promise<Flag> => {
-    const [toggledFlag, error] = await logContext.tryWithLoggingAsync<Flag>(async () => 
+    const [toggledFlag, error] = await logContext.withLoggingAsync<Flag>(async () => 
       await toggleAndReturnFlag(flagId));
     if (error) return {} as Flag;
-    replaceFlagInState(toggledFlag!);
-    return toggledFlag!;
-  }
-
-  const add = async (name: string, description: string): Promise<Voidable<Flag>> => {
-    const [addedFlag, error] = await logContext.tryWithLoggingAsync<Flag>(async () =>
-      await addAndReturnFlag(name, description));
-    if (error) return undefined;
-    setFlags([...flags!, addedFlag!]);
-    return addedFlag!;
+    return updateAndReturnFlag(toggledFlag!);
   }
 
   const value: FlagContextProps = {
     flags,
-    list,
     toggle,
     add
   }
@@ -82,4 +77,4 @@ export const FlagProvider: React.FC<React.PropsWithChildren> = ({children}) => {
   )
 }
 
-export default FlagProvider
+export default Provider

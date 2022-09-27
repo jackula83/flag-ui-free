@@ -1,6 +1,6 @@
 import React from 'react';
 import { GraphQLProvider } from './providers/GraphQLProvider';
-import LogProvider from './providers/LogProvider';
+import LogProvider from './providers/LogProvider/provider';
 
 export const CoreProvider: React.FC<React.PropsWithChildren> = ({children}) => {
   return (

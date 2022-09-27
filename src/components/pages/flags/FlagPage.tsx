@@ -1,9 +1,10 @@
 import React, { useContext,  useState } from 'react';
 import FlagCard from './FlagCard';
-import { FlagContext } from '../../../providers/FlagProvider';
+import { FlagContext } from '../../../providers/FlagProvider/provider';
 import { FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { FlagEditRoute } from '../../../routes';
+import { useFlagList } from './../../../providers/FlagProvider/hooks';
 
 const FlagList = () => {
   
@@ -11,7 +12,7 @@ const FlagList = () => {
   const flagDescriptionFieldId = 'flagDescription';
 
   const flagContext = useContext(FlagContext);
-  const flagData = flagContext.list();
+  const flagData = useFlagList();
   const navigate = useNavigate();
   
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);

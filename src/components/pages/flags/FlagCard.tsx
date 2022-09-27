@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
-import { FlagContext } from '../../../providers/FlagProvider';
+import { FlagContext } from '../../../providers/FlagProvider/provider';
 import { createLock, Lock, makeExclusiveRequest } from '../../../core/utils';
 import { useNavigate } from 'react-router-dom';
 import { FlagEditRoute } from './../../../routes';
