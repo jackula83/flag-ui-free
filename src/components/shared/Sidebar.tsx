@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { NavItem } from 'reactstrap';
-import { FlagListRoute, SegmentRoute, FlagRoute } from './../../routes';
+import { FlagListRoute, SegmentRoute } from '../../routes';
 
 const SideBar: React.FC<any> = () => {
 
@@ -36,7 +36,7 @@ const SideBar: React.FC<any> = () => {
   return (
     <>
       <nav className='sidebar sidebar-offcanvas' id='sidebar'>
-        <ul className='nav'>
+        <ul className='nav fixed-top'>
           {links}
         </ul>
       </nav>
