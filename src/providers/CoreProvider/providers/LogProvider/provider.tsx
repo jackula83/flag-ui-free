@@ -1,12 +1,18 @@
 import React from 'react';
-import { Voidable } from '../../../core/core';
-import { useAddLogMutation, createLogInput } from '../../../operations/log';
+import { Voidable } from '../../../../core/core';
+import { useAddLogMutation, createLogInput } from '../../../../operations/log';
+import { isDevelopment, isFree } from '../../../../config';
 
 export type LogProviderContext = {
   error: (error: any, consoleOut?: boolean) => string,
   info: (message: string, consoleOut?: boolean) => void,
-  tryWithLogging: <T>(func: () => T, final?: () => void) => Voidable<T>,
-  tryWithLoggingAsync: <T>(func: () => Promise<Voidable<T>>, final?: () => void) => Promise<Voidable<T>>
+  withLogging: <T>(func: () => T, final?: () => void) => [
+    Voidable<T>, 
+    string
+  ],
+  withLoggingAsync: <T>(func: () => Promise<Voidable<T>>, final?: () => void) => Promise<[
+    Voidable<T>, string
+  ]>
 }
 
 export const LogContext = React.createContext<LogProviderContext>({} as LogProviderContext);
@@ -19,10 +25,12 @@ type Props = React.PropsWithChildren & {
   config?: LogProviderConfig
 }
 
-export const LogProvider: React.FC<Props> = ({
+export const Provider: React.FC<Props> = ({
   children, 
   config
 }) => {
+
+  const defaultConsoleOut = isDevelopment() || isFree();
 
   const logMutation = useAddLogMutation();
 
@@ -46,7 +54,7 @@ export const LogProvider: React.FC<Props> = ({
     }
   }
 
-  const error = (error: any, consoleOut: boolean = true): string => {
+  const error = (error: any, consoleOut: boolean = defaultConsoleOut): string => {
     const message = convertToText(error);
     if (consoleOut) console.error(message);
     logToServer(message);
@@ -57,26 +65,34 @@ export const LogProvider: React.FC<Props> = ({
     if (consoleOut) console.log(message);
   }
 
-  const tryWithLogging = <T,>(func: () => T, final?: () => void): Voidable<T> => {
-    try {
-      return func();
-    } catch (e) {
-      error(e);
-    } finally {
-      if (final) final();
-    }
+  const withLogging = <T,>(func: () => T, final?: () => void): [Voidable<T>, string] => {
+  try {
+    return [func(), ''];
+  } catch (e) {
+    return [{} as T, error(e)];
+  } finally {
+    if (final) final();
   }
+}
 
-  const tryWithLoggingAsync = async <T,>(
+const withLoggingAsync = async <T,>(
     func: () => Promise<Voidable<T>>, 
     final?: () => void
-  ): Promise<Voidable<T>> => tryWithLogging(() => Promise.resolve(func()), final);
+  ): Promise<[Voidable<T>, string]> => {
+  try {
+    return [await func(), ''];
+  } catch (e) {
+    return [undefined, error(e)];
+  } finally {
+    if (final) final();
+  }
+}
 
   const value: LogProviderContext = {
     error,
     info,
-    tryWithLogging,
-    tryWithLoggingAsync
+    withLogging,
+    withLoggingAsync
   }
 
   return (
@@ -84,4 +100,4 @@ export const LogProvider: React.FC<Props> = ({
   )
 }
 
-export default LogProvider
+export default Provider

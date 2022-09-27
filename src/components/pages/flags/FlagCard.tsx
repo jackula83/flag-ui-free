@@ -1,9 +1,10 @@
 import React, { useContext, useRef, useState } from 'react'
 import { Flag } from '../../../operations/flag'
 import styled from 'styled-components';
-import { FlagContext } from '../../../providers/FlagProvider';
+import { FlagContext } from '../../../providers/FlagProvider/provider';
 import { createLock, Lock, makeExclusiveRequest } from '../../../core/utils';
-import { LogContext } from '../../../providers/CoreProvider/providers/LogProvider';
+import { useNavigate } from 'react-router-dom';
+import { FlagEditRoute } from './../../../routes';
 
 type Props = {
   flag: Flag
@@ -12,10 +13,10 @@ type Props = {
 const FlagCard: React.FC<Props> = (props) => {
 
   const flagContext = useContext(FlagContext);
-  const logContext = useContext(LogContext);
 
   const [flag, setFlag] = useState<Flag>(props.flag);
   const toggleLock = useRef<Lock>(createLock());
+  const navigate = useNavigate();
 
   const optimisticToggle = async (flagId: number) => {
     setFlag({...flag, isEnabled: !flag.isEnabled});
@@ -26,10 +27,13 @@ const FlagCard: React.FC<Props> = (props) => {
 
   const handleToggle = async (flagId: number) => {
     const toggleRequest = async () => await optimisticToggle(flagId);
-    const loggedRequest = async () => await logContext.tryWithLoggingAsync(toggleRequest);
     await makeExclusiveRequest(async () => {
-      await loggedRequest()
+      await toggleRequest()
     }, toggleLock.current);
+  }
+
+  const handleTitleClick = () => {
+    navigate(`${FlagEditRoute}/${flag.uuid}`);
   }
 
   const onButton = 
@@ -52,7 +56,8 @@ const FlagCard: React.FC<Props> = (props) => {
         <div className="card-body py-3">
           <div className="row">
             <div className="col-10">
-              <h4 className="card-title">{flag.name}</h4>
+              <h4 className="card-title" onClick={handleTitleClick}>
+                <a className='text-dark text-decoration-none text-lowercase' href='#'>{flag.name}</a></h4>
               <p className="card-description m-1">{flag.description}</p>
             </div>
             <div className="col-2">

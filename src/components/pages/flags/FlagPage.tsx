@@ -1,38 +1,39 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext,  useState } from 'react';
 import FlagCard from './FlagCard';
-import { FlagContext } from '../../../providers/FlagProvider';
+import { FlagContext } from '../../../providers/FlagProvider/provider';
 import { FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Voidable } from '../../../core/core';
+import { useNavigate } from 'react-router-dom';
+import { FlagEditRoute } from '../../../routes';
+import { useFlagList } from './../../../providers/FlagProvider/hooks';
 
-const FlagPage: React.FC<any> = () => {
+const FlagList = () => {
   
   const flagNameFieldId = 'flagName';
   const flagDescriptionFieldId = 'flagDescription';
 
   const flagContext = useContext(FlagContext);
-  const flagData = flagContext.list();
-
+  const flagData = useFlagList();
+  const navigate = useNavigate();
   
-  const [isAddFlagModalOpen, setAddFlagModalOpen] = useState<boolean>(false);
+  const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [flagName, setFlagName] = useState<string>('');
   const [flagDescription, setFlagDescription] = useState<string>('');
-  const [fieldErrors, setFieldErrors] = useState<Map<string, boolean>>(new Map());
+  const [flagNameError, setFlagNameError] = useState<string>('');
+  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>('');
 
-  useEffect(() => {
-    const initialFieldErrors = new Map();
-    initialFieldErrors.set(flagNameFieldId, false);
-    initialFieldErrors.set(flagDescriptionFieldId, false);
-    setFieldErrors(initialFieldErrors);
-  }, [])
-
-  const setFieldError = (id: string, error: boolean) => {
-    fieldErrors!.set(id, error);
-    setFieldErrors(fieldErrors);
+  const validateFlagName = (value: string) => {
+    if (value.length < 4) 
+      return 'Flag name must be at least 4 characters';
+    else if (/^[\w-]+$/.test(value) === false) 
+      return 'Flag name can only contain - and alphanumeric characters';
+    else if (flagContext.flags?.find(f => f.name === value.toLowerCase()))
+      return 'Flag already exists, please choose another name';
   }
 
   const handleFlagNameOnChange = (value: string) => {
-    if (value.length < 4) setFieldError(flagNameFieldId, true);
-    else setFieldError(flagNameFieldId, false);    
+    const errorMessage = validateFlagName(value);
+    if (errorMessage) setFlagNameError(errorMessage);
+    else setFlagNameError('');
     setFlagName(value);
   }
 
@@ -40,17 +41,29 @@ const FlagPage: React.FC<any> = () => {
     setFlagDescription(value);
   }
 
+  const handleSubmitFlag = async () => {
+    const errorMessage = validateFlagName(flagName);
+    if (errorMessage) {
+      setFlagNameError(errorMessage);
+      return;
+    }
+    const flag = await flagContext.add(flagName, flagDescription);
+    if (!flag) { 
+      setSubmitErrorMessage('An unknown error had occured 😿');
+      return; 
+    }
+    navigate(`${FlagEditRoute}/${flag.uuid}`);
+  }
+
   const handleOnModalClose = () => {
     setFlagName('');
     setFlagDescription('');
-    const updatedFieldErrors = new Map();
-    fieldErrors.forEach((_, k) => {
-      updatedFieldErrors.set(k, false);
-    });
-    setFieldErrors(updatedFieldErrors);
+    setSubmitErrorMessage('');
+    setFlagNameError('');
+    setAddModalOpen(false);
   }
 
-  const addFlagForm = () => {
+  const addFlagModalBody = () => {
     return (
       <>
         <FormGroup>
@@ -61,9 +74,9 @@ const FlagPage: React.FC<any> = () => {
             value={flagName} 
             maxLength={500}
             onChange={(e) => handleFlagNameOnChange(e.target.value)}
-            invalid={fieldErrors.get(flagNameFieldId)}
+            invalid={flagNameError !== ''}
           />
-          <FormFeedback>Flag name must be at least 4 characters</FormFeedback>
+          <FormFeedback>{flagNameError}</FormFeedback>
         </FormGroup>
         <FormGroup>
           <Label for={flagDescriptionFieldId}>Description</Label>
@@ -79,22 +92,32 @@ const FlagPage: React.FC<any> = () => {
     );
   }
 
+  const addFlagModalFooter = () => {
+    return (
+      <>
+        <div className="btn btn-gradient-primary" onClick={() => handleSubmitFlag()}>+ Add</div>
+        <div className="btn btn-gradient-second" onClick={() => handleOnModalClose()}>Cancel</div>
+        {
+          submitErrorMessage && 
+          <>
+            <Input invalid hidden />
+            <FormFeedback className='text-center'>{submitErrorMessage}</FormFeedback>
+          </>
+        }
+      </>
+    )
+  }
+
   const addFlagModal = () => {    
     return (
       <Modal 
-        isOpen={isAddFlagModalOpen} 
-        toggle={() => setAddFlagModalOpen(!isAddFlagModalOpen)}
+        isOpen={addModalOpen} 
+        toggle={() => setAddModalOpen(!addModalOpen)}
         onClosed={() => handleOnModalClose()}
       >
-        <ModalHeader toggle={() => setAddFlagModalOpen(!isAddFlagModalOpen)}>
-          Add a new flag
-        </ModalHeader>
-        <ModalBody>
-          {addFlagForm()}
-        </ModalBody>
-        <ModalFooter>
-          <div className="btn btn-gradient-primary">Do Something</div>
-        </ModalFooter>
+        <ModalHeader>Add a new flag</ModalHeader>
+        <ModalBody>{addFlagModalBody()}</ModalBody>
+        <ModalFooter>{addFlagModalFooter()}</ModalFooter>
       </Modal>
     );
   }
@@ -105,7 +128,7 @@ const FlagPage: React.FC<any> = () => {
         <div className="col-12">
           <div
             className="btn btn-gradient-primary my-3"
-            onClick={() => setAddFlagModalOpen(true)}>+ Add Flag</div>
+            onClick={() => setAddModalOpen(true)}>+ Add Flag</div>
         </div>
       </div>
       <div className="row">        
@@ -120,4 +143,4 @@ const FlagPage: React.FC<any> = () => {
   )
 }
 
-export default FlagPage;
+export default FlagList;
