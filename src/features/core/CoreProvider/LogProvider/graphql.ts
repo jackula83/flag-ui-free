@@ -1,12 +1,5 @@
 import { useMutation, gql } from "@apollo/client";
-
-export interface DefaultServeValue {
-  state: boolean;
-}
-
-export type Log = {
-  message: string
-}
+import { Log } from "./types";
 
 export const TypeInfo = 'info'
 export const TypeWarning = 'warning'

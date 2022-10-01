@@ -1,23 +1,6 @@
 import { useQuery, useMutation, gql } from "@apollo/client";
+import { AddFlagData, Flag, FlagIdVars, ToggleData } from "@flagcar/types";
 import { CoreEntityFields } from 'features/core/operations/fragments/coreFragments';
-
-export interface DefaultServeValue {
-  state: boolean;
-}
-
-export interface Flag {
-  id: number;
-  uuid: string;
-  name: string;
-  description: string;
-  alias: string;
-  isEnabled: boolean;
-  defaultServeValue?: DefaultServeValue;
-}
-
-export interface FlagIdVars {
-  id: number
-}
 
 const entityName = "Flag";
 
@@ -88,8 +71,6 @@ const TOGGLE_FLAG = gql`
   }
 `
 
-// export type MutationOptions<T> = (options?: any) => Promise<FetchResult<T>>
-export interface ToggleData { toggleFlag: Flag }
 export const useToggleMutation = () => {
   const [variables] = useMutation<ToggleData, FlagIdVars>(
     TOGGLE_FLAG
@@ -119,7 +100,7 @@ type FlagHeaderInput = {
     description: string
   }
 }
-export interface AddFlagData { addFlag: Flag }
+
 export const createFlagHeaderInput = (name: string, description: string): FlagHeaderInput => {
   return {
     flagHeader: {

@@ -1,8 +1,4 @@
-import { Voidable } from "./core";
-
-export type Lock = {
-  lockValue: boolean
-}
+import { Voidable, Lock } from '@flagcar/types';
 
 export const createLock = (): Lock => ({lockValue: false});
 

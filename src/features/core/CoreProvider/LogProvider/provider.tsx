@@ -1,6 +1,6 @@
 import React from 'react';
+import { Voidable } from '@flagcar/types';
 import { isDevelopment, isFree } from 'features/config';
-import { Voidable } from 'features/core/core';
 import { useAddLogMutation, createLogInput } from './graphql';
 
 export type LogProviderContext = {
@@ -25,10 +25,10 @@ type Props = React.PropsWithChildren & {
   config?: LogProviderConfig
 }
 
-export const Provider: React.FC<Props> = ({
+export const Provider = ({
   children, 
   config
-}) => {
+}: Props) => {
 
   const defaultConsoleOut = isDevelopment() || isFree();
 

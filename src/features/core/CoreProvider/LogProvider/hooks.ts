@@ -1,5 +1,5 @@
-import { Voidable } from "features/core/core";
 import { useContext } from 'react';
+import { Voidable } from '@flagcar/types';
 import { LogContext } from "./provider";
 
 export const useLoggingCallback = <T,>(): ((

@@ -1,23 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Voidable } from 'features/core/core';
+import { Voidable, Flag } from '@flagcar/types';
+import { LogContext } from 'features/core/CoreProvider';
 import { 
   createFlagHeaderInput, 
-  Flag, 
   ListFlags, 
   useAddFlagMutation,
   useToggleMutation 
-} from './/graphql';
-import { LogContext } from 'features/core/CoreProvider/LogProvider';
+} from './graphql';
 
-type FlagContextProps = {
+type Props = {
   flags: Voidable<Flag[]>,
   toggle: (flagId: number) => Promise<Flag>,
   add: (name: string, description: string) => Promise<Voidable<Flag>>
 }
 
-export const FlagContext = React.createContext<FlagContextProps>({} as FlagContextProps);
+export const FlagContext = React.createContext<Props>({} as Props);
 
-export const Provider: React.FC<React.PropsWithChildren> = ({children}) => {
+export const Provider = ({children}: React.PropsWithChildren) => {
 
   const initialFlags = ListFlags();
   const [flags, setFlags] = useState<Voidable<Flag[]>>(undefined);
@@ -71,7 +70,7 @@ export const Provider: React.FC<React.PropsWithChildren> = ({children}) => {
     return updateAndReturnFlag(toggledFlag!);
   }
 
-  const value: FlagContextProps = {
+  const value: Props = {
     flags,
     toggle,
     add

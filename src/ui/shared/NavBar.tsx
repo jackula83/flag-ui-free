@@ -1,7 +1,7 @@
 import React from 'react';
 import LogoMini from 'assets/images/logo-mini.svg'
 
-const NavBar: React.FC<any> = () => {
+const NavBar = () => {
   return (
     <>
       <nav className="navbar default-layout-navbar col-lg-12 col-12 p-0 d-flex flex-row fixed-top">

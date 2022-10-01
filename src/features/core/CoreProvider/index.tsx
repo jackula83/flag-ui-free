@@ -2,7 +2,9 @@ import React from 'react';
 import { GraphQLProvider } from './GraphQLProvider';
 import { LogProvider } from './LogProvider';
 
-export const CoreProvider: React.FC<React.PropsWithChildren> = ({children}) => {
+export { LogContext } from './LogProvider';
+
+export const CoreProvider = ({children}: React.PropsWithChildren) => {
   return (
     <>
       <GraphQLProvider>

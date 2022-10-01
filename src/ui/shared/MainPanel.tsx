@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react'
 
-interface IProps {
+type Props = {
   title: string
   children?: ReactNode
 }
 
-const MainPanel = ({title, children}: IProps) => {
+const MainPanel = ({title, children}: Props) => {
   return (
     <>    
         <div className="main-panel">

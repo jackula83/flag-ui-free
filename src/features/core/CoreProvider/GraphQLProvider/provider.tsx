@@ -2,7 +2,7 @@ import React from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { BffEndpoint } from 'features/config';
 
-export const Provider: React.FC<React.PropsWithChildren> = (props) => {
+export const Provider = (props: React.PropsWithChildren) => {
   const endpoint = BffEndpoint;
 
   const client = new ApolloClient({

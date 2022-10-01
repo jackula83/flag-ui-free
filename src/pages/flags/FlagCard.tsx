@@ -1,16 +1,16 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Flag } from 'features/flags/FlagProvider/graphql'
 import { FlagContext } from 'features/flags/FlagProvider';
-import { createLock, Lock, makeExclusiveRequest } from 'features/core/utils';
+import { createLock, makeExclusiveRequest } from 'features/core/utils';
 import { FlagEditRoute } from 'pages/routes';
+import { Flag, Lock } from '@flagcar/types';
 
 type Props = {
   flag: Flag
 }
 
-const FlagCard: React.FC<Props> = (props) => {
+const FlagCard = (props: Props) => {
 
   const flagContext = useContext(FlagContext);
 

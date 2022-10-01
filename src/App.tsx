@@ -8,7 +8,7 @@ import { FlagProvider } from 'features/flags/FlagProvider';
 import SideBar from 'ui/shared/Sidebar';
 import MainPanel from 'ui/shared/MainPanel';
 import NavBar from 'ui/shared/NavBar';
-import { DefaultTheme } from 'ui/themes/defaultTheme';
+import { DefaultTheme } from 'features/themes/defaultTheme';
 import FlagList from 'pages/flags/FlagPage';
 import FlagEdit from 'pages/flags/FlagEdit';
 import { FlagEditRoute, FlagListRoute } from 'pages/routes';

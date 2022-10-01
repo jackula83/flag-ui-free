@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { NavItem } from 'reactstrap';
 import { FlagListRoute, SegmentRoute } from 'pages/routes';
 
-const Sidebar: React.FC<any> = () => {
+const Sidebar = () => {
 
   const location = useLocation();
 
