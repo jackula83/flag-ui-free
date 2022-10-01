@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { NavItem } from 'reactstrap';
-import { FlagListRoute, SegmentRoute } from '../../routes';
+import { FlagListRoute, SegmentRoute } from 'pages/routes';
 
-const SideBar: React.FC<any> = () => {
+const Sidebar: React.FC<any> = () => {
 
   const location = useLocation();
 
@@ -44,4 +44,4 @@ const SideBar: React.FC<any> = () => {
   )
 }
 
-export default SideBar
+export default Sidebar

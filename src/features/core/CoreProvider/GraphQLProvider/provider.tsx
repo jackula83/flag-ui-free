@@ -1,8 +1,8 @@
 import React from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { BffEndpoint } from '../../../config';
+import { BffEndpoint } from 'features/config';
 
-export const GraphQLProvider: React.FC<React.PropsWithChildren> = (props) => {
+export const Provider: React.FC<React.PropsWithChildren> = (props) => {
   const endpoint = BffEndpoint;
 
   const client = new ApolloClient({
@@ -15,4 +15,4 @@ export const GraphQLProvider: React.FC<React.PropsWithChildren> = (props) => {
   )
 }
 
-export default GraphQLProvider
+export default Provider

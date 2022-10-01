@@ -1,10 +1,19 @@
 import React, { useContext,  useState } from 'react';
-import FlagCard from './FlagCard';
-import { FlagContext } from '../../../providers/FlagProvider/provider';
-import { FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import { FlagEditRoute } from '../../../routes';
-import { useFlagList } from './../../../providers/FlagProvider/hooks';
+import { 
+  FormFeedback, 
+  FormGroup, 
+  Input, 
+  Label, 
+  Modal, 
+  ModalBody, 
+  ModalFooter, 
+  ModalHeader 
+} from 'reactstrap';
+import { FlagContext } from 'features/flags/FlagProvider';
+import { useFlagList } from 'features/flags/FlagProvider/hooks';
+import { FlagEditRoute } from 'pages/routes';
+import FlagCard from './FlagCard';
 
 const FlagList = () => {
   

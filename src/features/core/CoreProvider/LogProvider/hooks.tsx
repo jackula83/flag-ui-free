@@ -1,4 +1,4 @@
-import { Voidable } from "../../../../core/core";
+import { Voidable } from "features/core/core";
 import { useContext } from 'react';
 import { LogContext } from "./provider";
 

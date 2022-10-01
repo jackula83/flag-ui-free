@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Flag } from '../../operations/flag';
+import { Flag } from './graphql';
 import { FlagContext } from './provider';
 
 export const useFlagList = (): Flag[] => {

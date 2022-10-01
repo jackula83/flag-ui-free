@@ -1,5 +1,5 @@
-import { useQuery, useMutation, gql, FetchResult } from "@apollo/client";
-import { CoreEntityFields } from './fragments/coreFragments';
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { CoreEntityFields } from 'features/core/operations/fragments/coreFragments';
 
 export interface DefaultServeValue {
   state: boolean;

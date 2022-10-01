@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Voidable } from '../../core/core';
-import { createFlagHeaderInput, Flag, ListFlags, useToggleMutation } from '../../operations/flag';
-import { LogContext } from '../CoreProvider/providers/LogProvider/provider';
-import { useAddFlagMutation } from './../../operations/flag';
+import { Voidable } from 'features/core/core';
+import { 
+  createFlagHeaderInput, 
+  Flag, 
+  ListFlags, 
+  useAddFlagMutation,
+  useToggleMutation 
+} from './/graphql';
+import { LogContext } from 'features/core/CoreProvider/LogProvider';
 
 type FlagContextProps = {
   flags: Voidable<Flag[]>,

@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoMini from '../../assets/images/logo-mini.svg'
+import LogoMini from 'assets/images/logo-mini.svg'
 
 const NavBar: React.FC<any> = () => {
   return (

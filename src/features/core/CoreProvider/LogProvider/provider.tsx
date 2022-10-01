@@ -1,7 +1,7 @@
 import React from 'react';
-import { Voidable } from '../../../../core/core';
-import { useAddLogMutation, createLogInput } from '../../../../operations/log';
-import { isDevelopment, isFree } from '../../../../config';
+import { isDevelopment, isFree } from 'features/config';
+import { Voidable } from 'features/core/core';
+import { useAddLogMutation, createLogInput } from './graphql';
 
 export type LogProviderContext = {
   error: (error: any, consoleOut?: boolean) => string,
