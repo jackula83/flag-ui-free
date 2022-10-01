@@ -6,6 +6,14 @@
       "dom.iterable",
       "esnext"
     ],
+    "baseUrl": "src",
+    "paths": {
+      "@flagcar/types": ["features/types.ts"],
+      "features/*": ["features/*"],
+      "ui/*": ["ui/*"],
+      "pages/*": ["pages/*"],
+      "assets": ["assets/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,7 +28,4 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ]
 }

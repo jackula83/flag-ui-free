@@ -16,6 +16,7 @@
     "bootstrap": "^5.2.0",
     "compass-mixins": "^0.12.12",
     "graphql": "^16.5.0",
+    "module-alias": "^2.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",

@@ -1,17 +1,17 @@
 import styled, { ThemeProvider } from 'styled-components';
-import { DefaultTheme } from './themes/defaultTheme';
-import './App.css';
-import './assets/css/style.css'
-import './assets/vendors/mdi/css/materialdesignicons.min.css';
-import './assets/vendors/css/vendor.bundle.base.css';
-import SideBar from './components/shared/SideBar';
-import FlagList from './components/pages/flags/FlagPage';
-import MainPanel from './components/shared/MainPanel';
-import NavBar from './components/shared/NavBar';
-import FlagEdit from './components/pages/flags/FlagEdit';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import { FlagEditRoute, FlagListRoute } from './routes';
-import { FlagProvider } from './providers/FlagProvider';
+import './App.css';
+import 'assets/css/style.css'
+import 'assets/vendors/mdi/css/materialdesignicons.min.css';
+import 'assets/vendors/css/vendor.bundle.base.css';
+import { FlagProvider } from 'features/flags/FlagProvider';
+import SideBar from 'ui/shared/Sidebar';
+import MainPanel from 'ui/shared/MainPanel';
+import NavBar from 'ui/shared/NavBar';
+import { DefaultTheme } from 'features/themes/defaultTheme';
+import FlagList from 'pages/flags/FlagPage';
+import FlagEdit from 'pages/flags/FlagEdit';
+import { FlagEditRoute, FlagListRoute } from 'pages/routes';
 
 const Container = styled.div`
   /* padding: 2rem; */
