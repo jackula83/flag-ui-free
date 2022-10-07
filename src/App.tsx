@@ -28,7 +28,7 @@ function App() {
     </MainPanel>);
 
   const flagEditElement = (
-    <MainPanel title='Flags'>
+    <MainPanel title='Edit Flag' returnUrl={FlagListRoute}>
       <FlagProvider>
         <FlagEdit />
       </FlagProvider>

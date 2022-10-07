@@ -11,7 +11,8 @@ import {
 type Props = {
   flags: Voidable<Flag[]>,
   toggle: (flagId: number) => Promise<Flag>,
-  add: (name: string, description: string) => Promise<Voidable<Flag>>
+  add: (name: string, description: string) => Promise<Voidable<Flag>>,
+  update: (flag: Flag) => Promise<Flag>
 }
 
 export const FlagContext = React.createContext<Props>({} as Props);
@@ -63,6 +64,13 @@ export const Provider = ({children}: React.PropsWithChildren) => {
     return updateAndReturnFlag(addedFlag!);
   }
 
+  const update = async (flag: Flag): Promise<Flag> => {
+    const [updatedFlag, error] = await logContext.withLoggingAsync<Flag>(async () =>
+      await updateAndReturnFlag(flag));
+    if (error) return {} as Flag;
+    return updatedFlag!;
+  }
+
   const toggle = async (flagId: number): Promise<Flag> => {
     const [toggledFlag, error] = await logContext.withLoggingAsync<Flag>(async () => 
       await toggleAndReturnFlag(flagId));
@@ -73,7 +81,8 @@ export const Provider = ({children}: React.PropsWithChildren) => {
   const value: Props = {
     flags,
     toggle,
-    add
+    add,
+    update
   }
 
   return (
