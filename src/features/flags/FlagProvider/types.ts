@@ -18,3 +18,4 @@ export type FlagIdVars = {
 
 export type ToggleData = { toggleFlag: Flag }
 export type AddFlagData = { addFlag: Flag }
+export type UpdateFlagData = { updateFlag: Flag }
