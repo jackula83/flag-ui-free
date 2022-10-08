@@ -1,6 +1,7 @@
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { AddFlagData, Flag, FlagIdVars, ToggleData } from "@flagcar/types";
+import { AddFlagData, Flag, FlagIdVars, ToggleData, UpdateFlagData } from "@flagcar/types";
 import { CoreEntityFields } from 'features/core/operations/fragments/coreFragments';
+import internal from "stream";
 
 const entityName = "Flag";
 
@@ -112,4 +113,49 @@ export const createFlagHeaderInput = (name: string, description: string): FlagHe
 export const useAddFlagMutation = () => {
   const [addFlagMutation] = useMutation<AddFlagData, FlagHeaderInput>(ADD_FLAG);
   return addFlagMutation;
+}
+
+const UPDATE_FLAG = gql`
+  mutation UpdateFlag($updateFlag: UpdateFlagInput!) {
+    updateFlag(updateFlag: $updateFlag) {
+      id,
+      uuid,
+      name,
+      description,
+      alias,
+      isEnabled,
+      defaultServeValue {
+        state
+      }
+    }
+  }
+`
+
+type UpdateFlagInput = {
+  updateFlag: {
+    id: number, 
+    description: string, 
+    isEnabled: boolean, 
+    defaultServeValue: boolean
+  }
+}
+
+export const createUpdateFlaginput = (
+  id: number, 
+  description: string, 
+  isEnabled: boolean, 
+  serveValue: boolean
+): UpdateFlagInput => {
+  return {
+    updateFlag: {
+      id: parseInt(id.toString()),
+      description,
+      isEnabled,
+      defaultServeValue: serveValue
+    }
+  };
+}
+export const useUpdateFlagMutation = () => {
+  const [updateFlagMutation] = useMutation<UpdateFlagData, UpdateFlagInput>(UPDATE_FLAG);
+  return updateFlagMutation;
 }

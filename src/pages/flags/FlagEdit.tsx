@@ -1,19 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { Flag, Voidable } from '@flagcar/types';
 import { FlagContext } from "features/flags/FlagProvider";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { FlagListRoute } from "pages/routes";
 
 const FlagEdit = () => {
 
   const { flagUuid } = useParams<string>();
   const flagContext = useContext(FlagContext);
+  const navigate = useNavigate();
 
   const [flag, setFlag] = useState<Flag>({} as Flag);
-  const [serveValueDropdownOpen, setServeValueDropdownOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setFlag(flagContext.flags!.find(f => f.uuid === flagUuid)!)
-  }, [])
+  }, []);
 
   const renderFlagHeader = () => (
       <div className="card mb-5">
@@ -66,7 +67,7 @@ const FlagEdit = () => {
               onChange={(e) => handleServeValueChange(e.target.value)}
             >
               <option selected={flag.defaultServeValue?.state}>True</option>
-              <option selected={flag.defaultServeValue?.state}>False</option>
+              <option selected={!flag.defaultServeValue?.state}>False</option>
               <option disabled={true}>Custom</option> 
             </select>
           </div>
@@ -84,11 +85,13 @@ const FlagEdit = () => {
   }
 
   const handleServeValueChange = (value: string) => {
-    setFlag({...flag, defaultServeValue: {state: value === 'True'}})
+    setFlag({...flag, defaultServeValue: {state: (value === 'True')}})
   }
 
-  const handleSaveChanges = () => {
-    flagContext.
+  const handleSaveChanges = async () => {
+    const updatedFlag = await flagContext.update(flag);
+    if (updatedFlag) setFlag(updatedFlag);
+    navigate(FlagListRoute);
   }
 
   return (
@@ -96,9 +99,9 @@ const FlagEdit = () => {
       {renderFlagHeader()}
       {renderFlagValue()}
       <div className="pt-5 text-end">
-        <div className="btn btn-primary">
+        <div className="btn btn-primary" onClick={handleSaveChanges}>
           <i className="mdi mdi-content-save me-2"></i>
-          Apply Changes
+          Save & Close
         </div>
         <div className="btn btn-dark ms-3 disabled">
           <i className="mdi mdi-zip-box me-2"></i>
