@@ -19,7 +19,7 @@ const MainPanel = ({title, children, returnUrl = undefined}: Props) => {
               <div className="page-header">    
                 <h3 className="page-title">
                   {returnUrl &&       
-                    <div className="btn btn-primary btn-sm me-3" onClick={() => navigate(-2)}>
+                    <div className="btn btn-primary btn-sm me-3" onClick={() => navigate(returnUrl)}>
                       <i className="mdi mdi-keyboard-backspace"></i>
                     </div>
                   }
