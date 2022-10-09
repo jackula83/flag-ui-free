@@ -57,7 +57,8 @@ const FlagCard = (props: Props) => {
         <Card.Body>
           <Row>
             <Row.Col size={10}>
-              <Card.Title value={flag.name} textStyling="lowercase" onClick={handleTitleClick} />
+              <Card.Title 
+                value={flag.name} styling="lowercase" onClick={handleTitleClick} />
               <Card.Description fade={true}>{flag.description}</Card.Description>
             </Row.Col>
             <Row.Col size={2}>

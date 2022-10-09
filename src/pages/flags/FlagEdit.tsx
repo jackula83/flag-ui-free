@@ -3,6 +3,10 @@ import { Flag, Voidable } from '@flagcar/types';
 import { FlagContext } from "features/flags/FlagProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { FlagListRoute } from "pages/routes";
+import { Card } from "ui/Card";
+import { Row } from "ui/Row";
+import { Align } from "ui/common/align";
+import { TextArea } from "ui/TextArea";
 
 const FlagEdit = () => {
 
@@ -17,50 +21,41 @@ const FlagEdit = () => {
   }, []);
 
   const renderFlagHeader = () => (
-      <div className="card mb-5">
-        <div className="card-body">
-          <div className="row">
-            <div className="col-6">
-              <h4 className="card-title">
-                <a className='text-dark text-decoration-none text-lowercase' href='#'>{flag?.name}</a>
-              </h4>
-            </div>
-            <div className="col-6">
-              <div className="text-end">
-              {flag?.isEnabled 
-                ? <label className="badge badge-success" onClick={handleToggle}>Toggled On</label>
-                : <label className="badge badge-secondary" onClick={handleToggle}>Toggled Off</label>
-              }
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div className="row">
-            <div className="form-group">
-              <label htmlFor="txtDescription">Description</label>
-              <textarea 
-                className="form-control" 
-                id="txtDescription" 
-                rows={4}
-                value={flag.description}
-                onChange={(e) => handleDescriptionChange(e.target.value)} 
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+    <Card>
+      <Card.Body>
+        <Row>
+          <Row.Col size={6}>
+            <Card.Title styling="lowercase" value={flag.name} />
+          </Row.Col>
+          <Row.Col size={6} align={Align.Right}>
+            {flag?.isEnabled 
+              ? <div className="badge badge-success" onClick={handleToggle}>Toggled On</div>
+              : <div className="badge badge-secondary" onClick={handleToggle}>Toggled Off</div>
+            }
+          </Row.Col>
+        </Row>
+        <hr />
+        <Row>
+          <TextArea 
+            id="txtDescription" 
+            title="Description" 
+            value={flag.description} 
+            onChange={(e) => handleDescriptionChange((e.target as HTMLTextAreaElement).value)} 
+          />
+        </Row>
+      </Card.Body>
+    </Card>
   );
 
   const renderFlagValue = () => (
-      <div className="card">
-        <div className="card-body">
-          <div className="row">
-            <h3 className="card-title">
-              <a className='text-dark text-decoration-none text-capitalize' href='#'>State Value</a>
-            </h3>
-          </div>
-          <hr />
-          <div className="row container">
+    <Card>
+      <Card.Body>
+        <Row>
+          <Card.Title styling="capitalize" value="State Value" />
+        </Row>
+        <hr />
+        <Row>
+          <Row.Col size={2}>
             <select 
               id="serveValue" 
               className="form-select form-select-sm"
@@ -70,9 +65,10 @@ const FlagEdit = () => {
               <option selected={!flag.defaultServeValue?.state}>False</option>
               <option disabled={true}>Custom</option> 
             </select>
-          </div>
-        </div>
-      </div>    
+          </Row.Col>
+        </Row>
+      </Card.Body>
+    </Card>
   );
 
   const handleToggle = () => {

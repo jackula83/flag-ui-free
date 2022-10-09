@@ -142,7 +142,7 @@ const FlagList = () => {
       </div>
       <div className="row">        
           {flagData && flagData.map(flag => 
-          <div className="col-12 grid-margin" key={flag.name}>
+          <div className="col-12" key={flag.name}>
             <FlagCard flag={flag} />
           </div>)}
       </div>

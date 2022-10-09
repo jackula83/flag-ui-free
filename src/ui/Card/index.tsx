@@ -3,9 +3,11 @@ import { CardBody } from './CardBody';
 import { CardTitle } from './CardTitle';
 import { CardDescription } from './CardDescription';
 
-export const Card = ({children, ...props}: React.HTMLAttributes<HTMLDivElement>) => {
+type Props = React.HTMLAttributes<HTMLDivElement>;
+
+export const Card = ({children, ...props}: Props) => {
   return (
-    <div className="card" {...props}>
+    <div className={`card mb-3`} {...props}>
       {children}
     </div>
   )
