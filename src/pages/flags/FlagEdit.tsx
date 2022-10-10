@@ -7,6 +7,8 @@ import { Card } from "ui/Card";
 import { Row } from "ui/Row";
 import { Align } from "ui/common/align";
 import { TextArea } from "ui/TextArea";
+import { Badge } from "ui/Badge";
+import { BadgeTypes } from "ui/Badge/attributes";
 
 const FlagEdit = () => {
 
@@ -29,8 +31,8 @@ const FlagEdit = () => {
           </Row.Col>
           <Row.Col size={6} align={Align.Right}>
             {flag?.isEnabled 
-              ? <div className="badge badge-success" onClick={handleToggle}>Toggled On</div>
-              : <div className="badge badge-secondary" onClick={handleToggle}>Toggled Off</div>
+              ? <Badge type={BadgeTypes.Success} onClick={handleToggle}>Toggled On</Badge>
+              : <Badge type={BadgeTypes.Secondary} onClick={handleToggle}>Toggled Off</Badge>
             }
           </Row.Col>
         </Row>
