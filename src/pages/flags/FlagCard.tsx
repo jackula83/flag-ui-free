@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { FlagContext } from 'features/flags/FlagProvider';
 import { createLock, makeExclusiveRequest } from 'features/core/utils';
 import { FlagEditRoute } from 'pages/routes';

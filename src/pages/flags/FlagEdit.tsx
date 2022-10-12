@@ -9,6 +9,7 @@ import { Align } from "ui/common/align";
 import { TextArea } from "ui/TextArea";
 import { Badge } from "ui/Badge";
 import { BadgeTypes } from "ui/Badge/attributes";
+import { Select, SelectOption } from "ui/Select";
 
 const FlagEdit = () => {
 
@@ -49,29 +50,32 @@ const FlagEdit = () => {
     </Card>
   );
 
-  const renderFlagValue = () => (
-    <Card>
-      <Card.Body>
-        <Row>
-          <Card.Title styling="capitalize" value="State Value" />
-        </Row>
-        <hr />
-        <Row>
-          <Row.Col size={2}>
-            <select 
-              id="serveValue" 
-              className="form-select form-select-sm"
-              onChange={(e) => handleServeValueChange(e.target.value)}
-            >
-              <option selected={flag.defaultServeValue?.state}>True</option>
-              <option selected={!flag.defaultServeValue?.state}>False</option>
-              <option disabled={true}>Custom</option> 
-            </select>
-          </Row.Col>
-        </Row>
-      </Card.Body>
-    </Card>
-  );
+  const renderFlagValue = () => {
+    const options: SelectOption[] = [
+      {value:true.toString(), label: "True"},
+      {value:false.toString(), label: "False"},
+      {value: "custom", label: "Custom", disabled: true}
+    ];
+    return (
+      <Card>
+        <Card.Body>
+          <Row>
+            <Card.Title styling="capitalize" value="State Value" />
+          </Row>
+          <hr />
+          <Row>
+            <Row.Col size={2}>
+              <Select
+                options={options} 
+                selectedValue={flag.defaultServeValue?.state.toString()}
+                onSelect={handleServeValueChange}
+              />
+            </Row.Col>
+          </Row>
+        </Card.Body>
+      </Card>
+    )
+};
 
   const handleToggle = () => {
     const toggledFlag: Voidable<Flag> = {...flag, isEnabled: !flag?.isEnabled};
@@ -83,7 +87,7 @@ const FlagEdit = () => {
   }
 
   const handleServeValueChange = (value: string) => {
-    setFlag({...flag, defaultServeValue: {state: (value === 'True')}})
+    setFlag({...flag, defaultServeValue: {state: (value === true.toString())}})
   }
 
   const handleSaveChanges = async () => {

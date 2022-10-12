@@ -1,4 +1,4 @@
-import { FxEntity } from "@flagcar/types";
+import { FxEntity } from "features/types";
 
 export type DefaultServeValue = {
   state: boolean;
