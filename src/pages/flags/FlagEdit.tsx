@@ -12,6 +12,7 @@ import { BadgeTypes } from "ui/Badge/attributes";
 import { Select, SelectOption } from "ui/Select";
 import { Button } from "ui/Button";
 import { Container } from "ui/Container";
+import { TextStyle } from "ui/common/textStyle";
 
 const FlagEdit = () => {
 
@@ -30,7 +31,7 @@ const FlagEdit = () => {
       <Card.Body>
         <Row>
           <Row.Col size={6}>
-            <Card.Title styling="lowercase" value={flag.name} />
+            <Card.Title styling={TextStyle.Lowercase} value={flag.name} />
           </Row.Col>
           <Row.Col size={6} align={Align.Right}>
             {flag?.isEnabled 
@@ -62,7 +63,7 @@ const FlagEdit = () => {
       <Card>
         <Card.Body>
           <Row>
-            <Card.Title styling="capitalize" value="State Value" />
+            <Card.Title styling={TextStyle.Capitalize} value="State Value" />
           </Row>
           <hr />
           <Row>

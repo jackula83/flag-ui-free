@@ -15,6 +15,8 @@ import { useFlagList } from 'features/flags/FlagProvider/hooks';
 import { FlagEditRoute } from 'pages/routes';
 import FlagCard from './FlagCard';
 import { Row } from 'ui/Row';
+import { Button } from 'ui/Button';
+import { Container } from 'ui/Container';
 
 const FlagList = () => {
   
@@ -136,9 +138,10 @@ const FlagList = () => {
     <>
       <Row>
         <Row.Col size={12}>
-          <div
-            className="btn btn-gradient-primary my-3"
-            onClick={() => setAddModalOpen(true)}>+ Add Flag</div>
+          <Button.Primary
+            onClick={() => setAddModalOpen(true)}
+          >+ Add Flag</Button.Primary>
+          <Container.VMargin />
         </Row.Col>
       </Row>
       <Row>        

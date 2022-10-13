@@ -9,7 +9,7 @@ import SideBar from 'ui/shared/Sidebar';
 import MainPanel from 'ui/shared/MainPanel';
 import NavBar from 'ui/shared/NavBar';
 import { DefaultTheme } from 'features/themes/defaultTheme';
-import FlagList from 'pages/flags/FlagPage';
+import FlagList from 'pages/flags/FlagList';
 import FlagEdit from 'pages/flags/FlagEdit';
 import { FlagEditRoute, FlagListRoute } from 'pages/routes';
 

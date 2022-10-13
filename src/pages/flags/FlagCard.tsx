@@ -6,6 +6,8 @@ import { FlagEditRoute } from 'pages/routes';
 import { Flag, Lock } from '@flagcar/types';
 import { Card } from 'ui/Card';
 import { Row } from 'ui/Row';
+import { Button } from 'ui/Button';
+import { TextStyle } from 'ui/common/textStyle';
 
 type Props = {
   flag: Flag
@@ -38,17 +40,18 @@ const FlagCard = (props: Props) => {
   }
 
   const onButton = 
-    <div 
-      className="btn btn-gradient-success btn-rounded"
-      onClick={() => handleToggle(flag.id)}>
-      On
-    </div>
+    <Button.Success
+      gradient={true}
+      rounded={true}
+      onClick={() => handleToggle(flag.id)}
+    >On</Button.Success>
 
   const offButton = 
-    <div className="btn btn-gradient-light btn-rounded"
-      onClick={() => handleToggle(flag.id)}>
-      Off
-    </div>
+    <Button.Light
+      gradient={true}
+      rounded={true}
+      onClick={() => handleToggle(flag.id)}
+    >Off</Button.Light>
 
   return (
     <>
@@ -57,7 +60,7 @@ const FlagCard = (props: Props) => {
           <Row>
             <Row.Col size={10}>
               <Card.Title 
-                value={flag.name} styling="lowercase" onClick={handleTitleClick} />
+                value={flag.name} styling={TextStyle.Lowercase} onClick={handleTitleClick} />
               <Card.Description fade={true}>{flag.description}</Card.Description>
             </Row.Col>
             <Row.Col size={2}>
