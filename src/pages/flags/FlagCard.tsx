@@ -1,10 +1,13 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { FlagContext } from 'features/flags/FlagProvider';
 import { createLock, makeExclusiveRequest } from 'features/core/utils';
 import { FlagEditRoute } from 'pages/routes';
 import { Flag, Lock } from '@flagcar/types';
+import { Card } from 'ui/Card';
+import { Row } from 'ui/Row';
+import { Button } from 'ui/Button';
+import { TextStyle } from 'ui/common/textStyle';
 
 type Props = {
   flag: Flag
@@ -37,62 +40,37 @@ const FlagCard = (props: Props) => {
   }
 
   const onButton = 
-    <div 
-      className="btn btn-gradient-success btn-rounded"
-      onClick={() => handleToggle(flag.id)}>
-      On
-    </div>
+    <Button.Success
+      gradient={true}
+      rounded={true}
+      onClick={() => handleToggle(flag.id)}
+    >On</Button.Success>
 
   const offButton = 
-    <div className="btn btn-gradient-light btn-rounded"
-      onClick={() => handleToggle(flag.id)}>
-      Off
-    </div>
+    <Button.Light
+      gradient={true}
+      rounded={true}
+      onClick={() => handleToggle(flag.id)}
+    >Off</Button.Light>
 
   return (
     <>
-    <Wrapper>
-      <div className="card">
-        <div className="card-body py-3">
-          <div className="row">
-            <div className="col-10">
-              <h4 className="card-title" onClick={handleTitleClick}>
-                <a className='text-dark text-decoration-none text-lowercase' href='#'>{flag.name}</a></h4>
-              <p className="card-description m-1">{flag.description}</p>
-            </div>
-            <div className="col-2">
+      <Card>
+        <Card.Body>
+          <Row>
+            <Row.Col size={10}>
+              <Card.Title 
+                value={flag.name} styling={TextStyle.Lowercase} onClick={handleTitleClick} />
+              <Card.Description fade={true}>{flag.description}</Card.Description>
+            </Row.Col>
+            <Row.Col size={2}>
               {flag.isEnabled ? onButton : offButton}
-            </div>
-          </div>
-        </div>
-      </div>
-      </Wrapper>
+            </Row.Col>
+          </Row>
+        </Card.Body>
+      </Card>
     </>
   )
 }
-
-const Wrapper = styled.div`
-  .card {
-    overflow: hidden;
-  } 
-
-  p {
-    content: '';
-    overflow: hidden;    
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical; 
-  }
-
-  p:after {
-    content: '';
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 25%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 70%);
-    position: absolute;
-  }
-`
 
 export default FlagCard

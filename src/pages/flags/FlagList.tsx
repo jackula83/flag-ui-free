@@ -14,6 +14,9 @@ import { FlagContext } from 'features/flags/FlagProvider';
 import { useFlagList } from 'features/flags/FlagProvider/hooks';
 import { FlagEditRoute } from 'pages/routes';
 import FlagCard from './FlagCard';
+import { Row } from 'ui/Row';
+import { Button } from 'ui/Button';
+import { Container } from 'ui/Container';
 
 const FlagList = () => {
   
@@ -104,8 +107,8 @@ const FlagList = () => {
   const addFlagModalFooter = () => {
     return (
       <>
-        <div className="btn btn-gradient-primary" onClick={() => handleSubmitFlag()}>+ Add</div>
-        <div className="btn btn-gradient-second" onClick={() => handleOnModalClose()}>Cancel</div>
+        <Button.Primary onClick={handleSubmitFlag}>+ Add</Button.Primary>
+        <Button.Secondary onClick={handleOnModalClose}>Cancel</Button.Secondary>
         {
           submitErrorMessage && 
           <>
@@ -122,7 +125,7 @@ const FlagList = () => {
       <Modal 
         isOpen={addModalOpen} 
         toggle={() => setAddModalOpen(!addModalOpen)}
-        onClosed={() => handleOnModalClose()}
+        onClosed={handleOnModalClose}
       >
         <ModalHeader>Add a new flag</ModalHeader>
         <ModalBody>{addFlagModalBody()}</ModalBody>
@@ -133,20 +136,20 @@ const FlagList = () => {
 
   return (
     <>
-      <div className="row">
-        <div className="col-12">
-          <div
-            className="btn btn-gradient-primary my-3"
-            onClick={() => setAddModalOpen(true)}>+ Add Flag</div>
-        </div>
-      </div>
-      <div className="row">        
-          {flagData && flagData.map(flag => 
-          <div className="col-12 grid-margin" key={flag.name}>
+      <Row>
+        <Row.Col>
+          <Button.Primary
+            onClick={() => setAddModalOpen(true)}
+          >+ Add Flag</Button.Primary>
+          <Container.VMargin />
+        </Row.Col>
+      </Row>
+      <Row>        
+        {flagData && flagData.map(flag => 
+          <Row.Col size={12} key={flag.name}>
             <FlagCard flag={flag} />
-          </div>)}
-      </div>
-      
+          </Row.Col>)}
+      </Row>      
       {addFlagModal()}
     </>      
   )

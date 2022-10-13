@@ -3,6 +3,18 @@ import { Flag, Voidable } from '@flagcar/types';
 import { FlagContext } from "features/flags/FlagProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { FlagListRoute } from "pages/routes";
+import { Card } from "ui/Card";
+import { Row } from "ui/Row";
+import { Align } from "ui/common/align";
+import { TextArea } from "ui/TextArea";
+import { Badge } from "ui/Badge";
+import { BadgeTypes } from "ui/Badge/attributes";
+import { Select, SelectOption } from "ui/Select";
+import { Button } from "ui/Button";
+import { Container } from "ui/Container";
+import { TextStyle } from "ui/common/textStyle";
+import { Icon } from "ui/Icon";
+import { IconStyle } from "ui/common/icons";
 
 const FlagEdit = () => {
 
@@ -17,66 +29,78 @@ const FlagEdit = () => {
   }, []);
 
   const renderFlagHeader = () => (
-      <div className="card mb-5">
-        <div className="card-body">
-          <div className="row">
-            <div className="col-6">
-              <h4 className="card-title">
-                <a className='text-dark text-decoration-none text-lowercase' href='#'>{flag?.name}</a>
-              </h4>
-            </div>
-            <div className="col-6">
-              <div className="text-end">
-              {flag?.isEnabled 
-                ? <label className="badge badge-success" onClick={handleToggle}>Toggled On</label>
-                : <label className="badge badge-secondary" onClick={handleToggle}>Toggled Off</label>
-              }
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div className="row">
-            <div className="form-group">
-              <label htmlFor="txtDescription">Description</label>
-              <textarea 
-                className="form-control" 
-                id="txtDescription" 
-                rows={4}
-                value={flag.description}
-                onChange={(e) => handleDescriptionChange(e.target.value)} 
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+    <Card>
+      <Card.Body>
+        <Row>
+          <Row.Col size={6}>
+            <Card.Title styling={TextStyle.Lowercase} value={flag.name} />
+          </Row.Col>
+          <Row.Col size={6} align={Align.Right}>
+            {flag?.isEnabled 
+              ? <Badge type={BadgeTypes.Success} onClick={handleToggle}>Toggled On</Badge>
+              : <Badge type={BadgeTypes.Secondary} onClick={handleToggle}>Toggled Off</Badge>
+            }
+          </Row.Col>
+        </Row>
+        <hr />
+        <Row>
+          <TextArea 
+            id="txtDescription" 
+            title="Description" 
+            value={flag.description} 
+            onChange={(e) => handleDescriptionChange((e.target as HTMLTextAreaElement).value)} 
+          />
+        </Row>
+      </Card.Body>
+    </Card>
   );
 
-  const renderFlagValue = () => (
-      <div className="card">
-        <div className="card-body">
-          <div className="row">
-            <h3 className="card-title">
-              <a className='text-dark text-decoration-none text-capitalize' href='#'>State Value</a>
-            </h3>
-          </div>
+  const renderFlagValue = () => {
+    const options: SelectOption[] = [
+      {value:true.toString(), label: "True"},
+      {value:false.toString(), label: "False"},
+      {value: "custom", label: "Custom", disabled: true}
+    ];
+    return (
+      <Card>
+        <Card.Body>
+          <Row>
+            <Card.Title styling={TextStyle.Capitalize} value="State Value" />
+          </Row>
           <hr />
-          <div className="row container">
-            <select 
-              id="serveValue" 
-              className="form-select form-select-sm"
-              onChange={(e) => handleServeValueChange(e.target.value)}
-            >
-              <option selected={flag.defaultServeValue?.state}>True</option>
-              <option selected={!flag.defaultServeValue?.state}>False</option>
-              <option disabled={true}>Custom</option> 
-            </select>
-          </div>
-        </div>
-      </div>    
+          <Row>
+            <Row.Col size={2}>
+              <Select
+                options={options} 
+                selectedValue={flag.defaultServeValue?.state.toString()}
+                onSelect={handleServeValueChange}
+              />
+            </Row.Col>
+          </Row>
+        </Card.Body>
+      </Card>
+    )
+  };
+
+  const renderButtons = () => (
+    <Container align={Align.Right}>
+      <Container.VMargin />
+      <Button onClick={handleSaveChanges}>
+        <Icon icon={IconStyle.Save} />
+        <Container.HMargin size={1} />
+        Save & Close
+      </Button>
+      <Container.HMargin />
+      <Button.Dark disabled={true}>
+        <Icon icon={IconStyle.Archive} />
+        <Container.HMargin size={1} />
+        Archive Flag
+      </Button.Dark>
+    </Container>
   );
 
   const handleToggle = () => {
-    const toggledFlag: Voidable<Flag> = {...flag, isEnabled: !flag?.isEnabled};
+    const toggledFlag: Voidable<Flag> = {...flag, isEnabled: !!!flag?.isEnabled};
     setFlag(toggledFlag);
   }
 
@@ -85,7 +109,7 @@ const FlagEdit = () => {
   }
 
   const handleServeValueChange = (value: string) => {
-    setFlag({...flag, defaultServeValue: {state: (value === 'True')}})
+    setFlag({...flag, defaultServeValue: {state: (value === true.toString())}})
   }
 
   const handleSaveChanges = async () => {
@@ -96,18 +120,13 @@ const FlagEdit = () => {
 
   return (
     <>
-      {renderFlagHeader()}
-      {renderFlagValue()}
-      <div className="pt-5 text-end">
-        <div className="btn btn-primary" onClick={handleSaveChanges}>
-          <i className="mdi mdi-content-save me-2"></i>
-          Save & Close
-        </div>
-        <div className="btn btn-dark ms-3 disabled">
-          <i className="mdi mdi-zip-box me-2"></i>
-          Archive Flag
-        </div>
-      </div>
+      <Row>
+        <Row.Col>
+          {renderFlagHeader()}
+          {renderFlagValue()}
+          {renderButtons()}
+        </Row.Col>
+      </Row>
     </>
   );
 }

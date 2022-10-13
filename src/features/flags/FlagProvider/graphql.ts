@@ -1,5 +1,5 @@
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { AddFlagData, Flag, FlagIdVars, ToggleData, UpdateFlagData } from "@flagcar/types";
+import { AddFlagData, Flag, FlagIdVars, ToggleData, UpdateFlagData } from "features/types";
 import { CoreEntityFields } from 'features/core/operations/fragments/coreFragments';
 import internal from "stream";
 
