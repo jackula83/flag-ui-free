@@ -1,5 +1,5 @@
 import React from 'react';
-import { Align, textAlignmentMap } from 'ui/common/align';
+import { Align, } from 'ui/common/align';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   size?: number
@@ -11,10 +11,9 @@ export const RowCol = ({size = undefined, align = Align.Left, children, ...props
 
 
   const colSize = size ? `col-${size}` : 'col'
-  const textAlign = textAlignmentMap.get(align);
 
   return (
-    <div className={`${colSize} ${textAlign}`} {...props}>
+    <div className={`${colSize} ${align}`} {...props}>
       {children}
     </div>
   )

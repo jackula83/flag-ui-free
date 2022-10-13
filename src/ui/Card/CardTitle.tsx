@@ -1,6 +1,6 @@
 import React from 'react';
 import { Voidable } from '@flagcar/types';
-import { TextStyle, textStylingMap } from 'ui/common/textStyle';
+import { TextStyle } from 'ui/common/textStyle';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   value: string,
@@ -8,7 +8,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const CardTitle = ({value, styling = undefined, children, ...props}: Props) => {
-  const textStylingClassName = styling ? textStylingMap.get(styling) : '';
+  const textStylingClassName = styling ?? '';
   return (
     <div className="card-title" {...props}>
       <a className={`text-dark text-decoration-none ${textStylingClassName}`} href='#'>{value}</a>

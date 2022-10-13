@@ -13,6 +13,8 @@ import { Select, SelectOption } from "ui/Select";
 import { Button } from "ui/Button";
 import { Container } from "ui/Container";
 import { TextStyle } from "ui/common/textStyle";
+import { Icon } from "ui/Icon";
+import { IconStyle } from "ui/common/icons";
 
 const FlagEdit = () => {
 
@@ -106,12 +108,14 @@ const FlagEdit = () => {
       <Container align={Align.Right}>
         <Container.VMargin />
         <Button onClick={handleSaveChanges}>
-          <i className="mdi mdi-content-save me-2"></i>
+          <Icon icon={IconStyle.Save} />
+          <Container.HMargin size={1} />
           Save & Close
         </Button>
         <Container.HMargin />
         <Button.Dark disabled={true}>
-          <i className="mdi mdi-zip-box me-2"></i>
+          <Icon icon={IconStyle.Archive} />
+          <Container.HMargin size={1} />
           Archive Flag
         </Button.Dark>
       </Container>

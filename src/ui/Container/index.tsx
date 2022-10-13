@@ -1,5 +1,5 @@
 import React from 'react';
-import { Align, textAlignmentMap } from 'ui/common/align';
+import { Align } from 'ui/common/align';
 import { HMargin, VMargin } from './Margin';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -8,7 +8,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 export const Container = ({align = Align.Left, children, ...props}: Props) => {
   return (
-    <div className={`${textAlignmentMap.get(align)} p-0`} {...props}>{children}</div>
+    <div className={`${align} p-0`} {...props}>{children}</div>
   )
 }
 
