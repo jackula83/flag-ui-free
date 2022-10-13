@@ -16,7 +16,7 @@ const MainPanel = ({title, children, returnUrl = undefined}: Props) => {
         <div className="main-panel">
           <div className="content-wrapper">
             <div className="row">
-              <div className="page-header">    
+              <div className="page-header p-0">    
                 <h3 className="page-title">
                   {returnUrl &&       
                     <div className="btn btn-primary btn-sm me-3" onClick={() => navigate(returnUrl)}>

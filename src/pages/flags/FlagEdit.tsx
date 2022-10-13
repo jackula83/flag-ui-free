@@ -10,6 +10,8 @@ import { TextArea } from "ui/TextArea";
 import { Badge } from "ui/Badge";
 import { BadgeTypes } from "ui/Badge/attributes";
 import { Select, SelectOption } from "ui/Select";
+import { Button } from "ui/Button";
+import { Container } from "ui/Container";
 
 const FlagEdit = () => {
 
@@ -78,7 +80,7 @@ const FlagEdit = () => {
 };
 
   const handleToggle = () => {
-    const toggledFlag: Voidable<Flag> = {...flag, isEnabled: !flag?.isEnabled};
+    const toggledFlag: Voidable<Flag> = {...flag, isEnabled: !!!flag?.isEnabled};
     setFlag(toggledFlag);
   }
 
@@ -100,16 +102,18 @@ const FlagEdit = () => {
     <>
       {renderFlagHeader()}
       {renderFlagValue()}
-      <div className="pt-5 text-end">
-        <div className="btn btn-primary" onClick={handleSaveChanges}>
+      <Container align={Align.Right}>
+        <Container.VMargin />
+        <Button onClick={handleSaveChanges}>
           <i className="mdi mdi-content-save me-2"></i>
           Save & Close
-        </div>
-        <div className="btn btn-dark ms-3 disabled">
+        </Button>
+        <Container.HMargin />
+        <Button.Dark disabled={true}>
           <i className="mdi mdi-zip-box me-2"></i>
           Archive Flag
-        </div>
-      </div>
+        </Button.Dark>
+      </Container>
     </>
   );
 }

@@ -27,7 +27,7 @@ export const Select = ({
         <option 
           key={o.value} 
           value={o.value} 
-          disabled={o.disabled}
+          disabled={o.disabled ?? false}
         >{o.label}</option>)}
     </select>
   )
