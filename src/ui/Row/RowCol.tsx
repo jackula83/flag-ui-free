@@ -9,7 +9,6 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export const RowCol = ({size = undefined, align = Align.Left, children, ...props}: Props) => {
   if (size && size > 12) size = undefined;
 
-
   const colSize = size ? `col-${size}` : 'col'
 
   return (

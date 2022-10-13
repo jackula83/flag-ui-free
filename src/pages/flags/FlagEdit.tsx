@@ -80,7 +80,24 @@ const FlagEdit = () => {
         </Card.Body>
       </Card>
     )
-};
+  };
+
+  const renderButtons = () => (
+    <Container align={Align.Right}>
+      <Container.VMargin />
+      <Button onClick={handleSaveChanges}>
+        <Icon icon={IconStyle.Save} />
+        <Container.HMargin size={1} />
+        Save & Close
+      </Button>
+      <Container.HMargin />
+      <Button.Dark disabled={true}>
+        <Icon icon={IconStyle.Archive} />
+        <Container.HMargin size={1} />
+        Archive Flag
+      </Button.Dark>
+    </Container>
+  );
 
   const handleToggle = () => {
     const toggledFlag: Voidable<Flag> = {...flag, isEnabled: !!!flag?.isEnabled};
@@ -103,22 +120,13 @@ const FlagEdit = () => {
 
   return (
     <>
-      {renderFlagHeader()}
-      {renderFlagValue()}
-      <Container align={Align.Right}>
-        <Container.VMargin />
-        <Button onClick={handleSaveChanges}>
-          <Icon icon={IconStyle.Save} />
-          <Container.HMargin size={1} />
-          Save & Close
-        </Button>
-        <Container.HMargin />
-        <Button.Dark disabled={true}>
-          <Icon icon={IconStyle.Archive} />
-          <Container.HMargin size={1} />
-          Archive Flag
-        </Button.Dark>
-      </Container>
+      <Row>
+        <Row.Col>
+          {renderFlagHeader()}
+          {renderFlagValue()}
+          {renderButtons()}
+        </Row.Col>
+      </Row>
     </>
   );
 }

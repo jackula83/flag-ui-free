@@ -107,8 +107,8 @@ const FlagList = () => {
   const addFlagModalFooter = () => {
     return (
       <>
-        <div className="btn btn-gradient-primary" onClick={() => handleSubmitFlag()}>+ Add</div>
-        <div className="btn btn-gradient-second" onClick={() => handleOnModalClose()}>Cancel</div>
+        <Button.Primary onClick={handleSubmitFlag}>+ Add</Button.Primary>
+        <Button.Secondary onClick={handleOnModalClose}>Cancel</Button.Secondary>
         {
           submitErrorMessage && 
           <>
@@ -125,7 +125,7 @@ const FlagList = () => {
       <Modal 
         isOpen={addModalOpen} 
         toggle={() => setAddModalOpen(!addModalOpen)}
-        onClosed={() => handleOnModalClose()}
+        onClosed={handleOnModalClose}
       >
         <ModalHeader>Add a new flag</ModalHeader>
         <ModalBody>{addFlagModalBody()}</ModalBody>
@@ -137,7 +137,7 @@ const FlagList = () => {
   return (
     <>
       <Row>
-        <Row.Col size={12}>
+        <Row.Col>
           <Button.Primary
             onClick={() => setAddModalOpen(true)}
           >+ Add Flag</Button.Primary>
@@ -149,8 +149,7 @@ const FlagList = () => {
           <Row.Col size={12} key={flag.name}>
             <FlagCard flag={flag} />
           </Row.Col>)}
-      </Row>
-      
+      </Row>      
       {addFlagModal()}
     </>      
   )

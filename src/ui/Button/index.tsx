@@ -32,6 +32,7 @@ export const Button = (props: Props) => (
 );
 
 Button.Primary = makeButton('primary');
+Button.Secondary = makeButton('secondary');
 Button.Dark = makeButton('dark');
 Button.Success = makeButton('success');
 Button.Light = makeButton('light');
