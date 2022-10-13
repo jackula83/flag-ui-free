@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { NavItem } from 'reactstrap';
 import { FlagListRoute, SegmentRoute } from 'pages/routes';
-import { IconStyle } from 'ui/common/icons';
+import { IconStyle } from 'ui/enums/icons';
 import { Icon } from 'ui/Icon';
 
 const Sidebar = () => {
