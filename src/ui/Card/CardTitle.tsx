@@ -1,6 +1,6 @@
 import React from 'react';
 import { Voidable } from '@flagcar/types';
-import { TextStyle } from 'ui/common/textStyle';
+import { TextStyle } from 'ui/enums/textStyle';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   value: string,

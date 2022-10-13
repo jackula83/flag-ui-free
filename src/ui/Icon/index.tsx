@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconStyle } from 'ui/common/icons';
+import { IconStyle } from 'ui/enums/icons';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   icon: IconStyle,

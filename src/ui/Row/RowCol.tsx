@@ -1,5 +1,5 @@
 import React from 'react';
-import { Align, } from 'ui/common/align';
+import { Align, } from 'ui/enums/align';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   size?: number

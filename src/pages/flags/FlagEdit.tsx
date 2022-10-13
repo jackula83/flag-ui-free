@@ -5,16 +5,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FlagListRoute } from "pages/routes";
 import { Card } from "ui/Card";
 import { Row } from "ui/Row";
-import { Align } from "ui/common/align";
+import { Align } from "ui/enums/align";
 import { TextArea } from "ui/TextArea";
 import { Badge } from "ui/Badge";
-import { BadgeTypes } from "ui/Badge/attributes";
 import { Select, SelectOption } from "ui/Select";
 import { Button } from "ui/Button";
 import { Container } from "ui/Container";
-import { TextStyle } from "ui/common/textStyle";
+import { TextStyle } from "ui/enums/textStyle";
 import { Icon } from "ui/Icon";
-import { IconStyle } from "ui/common/icons";
+import { IconStyle } from "ui/enums/icons";
+import { BadgeType } from "ui/enums/badgeTypes";
 
 const FlagEdit = () => {
 
@@ -37,8 +37,8 @@ const FlagEdit = () => {
           </Row.Col>
           <Row.Col size={6} align={Align.Right}>
             {flag?.isEnabled 
-              ? <Badge type={BadgeTypes.Success} onClick={handleToggle}>Toggled On</Badge>
-              : <Badge type={BadgeTypes.Secondary} onClick={handleToggle}>Toggled Off</Badge>
+              ? <Badge type={BadgeType.Success} onClick={handleToggle}>Toggled On</Badge>
+              : <Badge type={BadgeType.Secondary} onClick={handleToggle}>Toggled Off</Badge>
             }
           </Row.Col>
         </Row>

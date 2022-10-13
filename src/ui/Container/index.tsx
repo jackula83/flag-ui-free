@@ -1,5 +1,5 @@
 import React from 'react';
-import { Align } from 'ui/common/align';
+import { Align } from 'ui/enums/align';
 import { HMargin, VMargin } from './Margin';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {

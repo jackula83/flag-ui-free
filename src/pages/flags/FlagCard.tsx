@@ -7,7 +7,7 @@ import { Flag, Lock } from '@flagcar/types';
 import { Card } from 'ui/Card';
 import { Row } from 'ui/Row';
 import { Button } from 'ui/Button';
-import { TextStyle } from 'ui/common/textStyle';
+import { TextStyle } from 'ui/enums/textStyle';
 
 type Props = {
   flag: Flag
